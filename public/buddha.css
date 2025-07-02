@@ -1,0 +1,401 @@
+.s1 {
+    background-color: #E09134 !important;
+    background: url(img/buddha-bg.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.s1>img {
+    height: 36.3125rem;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.second {
+    padding: 8rem 5rem;
+}
+
+.third {
+    padding: 8rem 5rem;
+    height: auto;
+}
+
+.s2 {
+    height: auto;
+}
+
+.s2>div {
+    padding-bottom: 10rem;
+}
+
+.s2>div:last-child {
+    padding-bottom: 0;
+}
+
+.t1 {
+    width: 70rem;
+}
+
+.t2 {
+    width: 60rem;
+}
+
+.title {
+    color: var(--white);
+    font-family: Phudu;
+    font-size: 2.8125rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 1.3rem;
+}
+
+.plaintext {
+    color: var(--white);
+    font-family: Afacad;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+}
+
+span.strong {
+    font-weight: 600;
+}
+
+
+
+.wite {
+    background-color: var(--white);
+}
+
+.color {
+    width: auto;
+    height: 16.0625rem;
+}
+
+.color h5 {
+    color: var(--white);
+    text-align: center;
+    font-family: Phudu;
+    font-size: 2.8125rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.a0 {
+    background-image: url(img/buddhasize.png);
+    height: 33.125rem;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #FFECC6;
+}
+
+.a1 {
+    background: url(img/a1.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #fff !important;
+}
+
+.a2 {
+    height: 50%;
+    background: url(img/a2.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #fff !important;
+}
+
+.a3 {
+    height: 50%;
+    background: url(img/a3.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #fff !important;
+}
+
+.t99 {
+    margin-bottom: 3rem;
+}
+
+.o0 {
+    margin-top: 2rem;
+}
+
+.o1 {
+    color: var(--white);
+    font-family: Afacad;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    margin: 0;
+}
+
+.o2 {
+    color: var(--white);
+    font-family: Afacad;
+    font-size: 0.9375rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.sub1 img,
+.sub2 img {
+    width: 35rem;
+    height: 37.9375rem;
+    object-fit: cover;
+}
+
+.s3 {
+    height: auto;
+}
+
+.iconbu img {
+    width: 13.07688rem;
+    height: 13.07688rem;
+}
+
+.lu,
+.li {
+    display: none !important;
+}
+
+.sub11 img,
+.sub22 img {
+    width: 100%;
+    object-position: center;
+    object-fit: cover;
+    height: 25.625rem;
+}
+
+.sub111 img,
+.sub222 img {
+    width: 13rem;
+    object-position: center;
+    object-fit: cover;
+    height: 14rem;
+}
+
+.sub111 {
+    margin-bottom: 3rem !important;
+}
+
+.sub11 {
+    padding-right: 1rem !important;
+    height: 40rem;
+    display: flex;
+    align-items: end;
+}
+
+.sub22 {
+    padding-left: 1rem !important;
+    height: 40rem;
+    display: flex;
+    align-items: start;
+}
+
+@media (max-width: 992px) {
+    .s1 {
+        background-size: 100%;
+        background-position: 0 20%;
+    }
+
+    .s1 img {
+        height: 50rem;
+    }
+
+    .third {
+        height: auto;
+    }
+
+    .t1 {
+        width: min-content;
+    }
+
+    .title {
+        font-size: 2.5rem;
+        margin: auto;
+        margin-bottom: 1.5rem;
+    }
+
+    .plaintext {
+        width: 39.3125rem;
+        font-size: 1rem;
+    }
+
+    .sub1,
+    .sub2 {
+        margin: 1rem 0 1rem 0;
+    }
+
+    .sub1 img {
+        height: 20rem;
+        object-fit: contain;
+        object-position: left;
+        /* transform: translateX(calc(-.5 * var(--bs-gutter-x) - 8rem)); */
+    }
+
+    .sub2 img {
+        height: 20rem;
+        object-fit: contain;
+        object-position: right;
+        /* transform: translateX(calc(-.5 * var(--bs-gutter-x) + 8rem + 1.5rem)); */
+    }
+
+    .color {
+        width: auto;
+        height: 8.85988rem;
+    }
+
+    .color h5 {
+        font-size: 1.5rem;
+    }
+
+    .a0 {
+        height: 18rem;
+        ;
+    }
+
+    .a1 {
+        background-color: #00000000 !important;
+        background-position: left;
+    }
+
+    .a2,
+    .a3 {
+        margin: 0 !important;
+        position: absolute;
+        width: 14.5rem;
+        height: 10.4375rem;
+    }
+
+    .a2 {
+        left: 50%;
+        bottom: 0;
+    }
+
+    .a3 {
+        right: 0;
+        top: 0;
+    }
+
+    .brid {
+        width: 100%;
+    }
+
+    .iconbu img {
+        width: 10.16163rem;
+        height: 10.16163rem;
+    }
+
+    .lg,
+    .li {
+        display: none !important;
+    }
+
+    .lu {
+        display: block;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .s1 img {
+        height: 50rem;
+    }
+
+    .li {
+        display: block;
+    }
+
+    .lu,
+    .lg {
+        display: none !important;
+    }
+
+    .hehe {
+        display: none;
+    }
+
+    .t1 {
+        width: 20rem;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .plaintext {
+        width: initial;
+        height: auto;
+        font-size: 0.8rem;
+    }
+
+    .second,
+    .third {
+        padding: 4rem 1rem;
+    }
+
+    .a2 {
+        left: 0;
+    }
+
+    .sub2 img {
+        height: 10rem;
+        /* transform: translateX(calc(-.5 * var(--bs-gutter-x) + 3rem + 1.5rem)); */
+    }
+
+    .sub1 img {
+        height: 10rem;
+        object-fit: contain;
+        object-position: left;
+        /* transform: translateX(calc(-.5 * var(--bs-gutter-x) - 3rem)); */
+    }
+
+    .s2>div {
+        padding-bottom: 2rem;
+    }
+
+    .color {
+        width: auto;
+        height: 4.875rem;
+    }
+
+    .color h5 {
+        font-size: 0.8rem;
+    }
+
+    .iconbu img {
+        width: 8.5rem;
+        height: 8.5rem;
+    }
+
+    .a0 {
+        height: 12rem;
+        ;
+    }
+
+    .taoke {
+        padding-right: 2rem;
+        padding-left: 2rem;
+        padding-bottom: 0;
+    }
+}
+
+@media (max-width: 500px) {
+    .s1 img {
+        height: 35rem;
+    }
+}

@@ -1,0 +1,300 @@
+.s1 {
+    background-color: #fff !important;
+    background: url(img/xadoan-bg.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.second {
+    padding: 8rem 5rem;
+}
+
+.third {
+    height: auto !important;
+    padding: 8rem 5rem;
+}
+
+.s2 {
+    height: auto;
+}
+
+.s2>div {
+    padding-bottom: 10rem;
+}
+
+.s2>div:last-child {
+    padding-bottom: 0;
+}
+
+.t1 {
+    width: 70rem;
+}
+
+.t2 {
+    width: 60rem;
+}
+
+.title {
+    color: var(--white);
+    font-family: Phudu;
+    font-size: 2.8125rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 1.3rem;
+}
+
+.plaintext {
+    color: var(--white);
+    font-family: Afacad;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+}
+
+span.strong {
+    font-weight: 600;
+}
+
+.s3 {
+    height: 80vh;
+}
+
+.x1 {
+    background: url(img/xadoan-bg-x.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #fff !important;
+}
+
+.x2 {
+    background-color: #F6B600;
+}
+
+.x3 {
+    background-color: #F9FAC0;
+}
+
+.color {
+    color: var(--black);
+    font-family: Afacad;
+    font-size: 3rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-align: center;
+}
+
+.a0 {
+    height: 33.5rem;
+}
+
+.a1 {
+    background: url(img/a1.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #fff !important;
+}
+
+.a2 {
+    height: 50%;
+    background: url(img/a2.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #fff !important;
+}
+
+.a3 {
+    height: 50%;
+    background: url(img/a3.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #fff !important;
+}
+
+.t99 {
+    margin-bottom: 3rem;
+}
+
+.o0 {
+    margin-top: 2rem;
+}
+
+.o1 {
+    color: var(--White, #F1EFE4);
+    font-family: Afacad;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    margin: 0;
+}
+
+.o2 {
+    color: var(--White, #F1EFE4);
+    font-family: Afacad;
+    font-size: 0.9375rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.eo {
+    display: none;
+}
+
+@media (max-width: 992px) {
+    .s1 {
+        background-size: 150%;
+    }
+
+    .third {
+        height: auto;
+    }
+
+    .t1 {
+        width: min-content;
+    }
+
+    .title {
+        font-size: 2.5rem;
+        margin: auto;
+        margin-bottom: 1.5rem;
+    }
+
+    .plaintext {
+        width: 39.3125rem;
+        font-size: 1rem;
+    }
+
+    .sub1,
+    .sub2 {
+        margin: 1rem 0 1rem 0;
+    }
+
+    .sub1 img {
+        height: 20rem;
+        object-fit: contain;
+        object-position: left;
+        transform: translateX(calc(-.5 * var(--bs-gutter-x) - 8rem));
+    }
+
+    .sub2 img {
+        height: 20rem;
+        object-fit: contain;
+        object-position: right;
+        transform: translateX(calc(-.5 * var(--bs-gutter-x) + 8rem + 1.5rem));
+    }
+
+    .s3 {
+        height: 30vh;
+    }
+
+    .x1 {
+        background-position: center !important;
+        background-size: contain !important;
+        background: url(img/a1.png);
+    }
+
+    .a0 {
+        height: 18rem;
+    }
+
+    .oe {
+        display: none;
+    }
+
+    .eo {
+        display: block;
+    }
+
+    .a1 {
+        background-color: #00000000 !important;
+        background-position: left;
+    }
+
+    .co6 {
+        flex: 0 0 auto;
+        width: 50%;
+        height: 100% !important;
+    }
+
+    .s3 {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .a2,
+    .a3 {
+        margin: 0 !important;
+        position: absolute;
+        width: 14.5rem;
+        height: 10.4375rem;
+    }
+
+    .a2 {
+        left: 50%;
+        bottom: 0;
+    }
+
+    .a3 {
+        right: 0;
+        top: 0;
+    }
+
+    .brid {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .hehe {
+        display: none;
+    }
+
+    .t1 {
+        width: 20rem;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .plaintext {
+        width: initial;
+        height: auto;
+        font-size: 0.8rem;
+    }
+
+    .second,
+    .third {
+        padding: 4rem 1rem;
+    }
+
+    .a2 {
+        left: 0;
+    }
+
+    .sub2 img {
+        height: 10rem;
+        transform: translateX(calc(-.5 * var(--bs-gutter-x) + 3rem + 1.5rem));
+    }
+
+    .sub1 img {
+        height: 10rem;
+        object-fit: contain;
+        object-position: left;
+        transform: translateX(calc(-.5 * var(--bs-gutter-x) - 3rem));
+    }
+
+    .s2>div {
+        padding-bottom: 2rem;
+    }
+}

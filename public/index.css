@@ -1,0 +1,519 @@
+.text-design {
+    display: grid;
+    grid-template-rows: 40vh auto;
+}
+
+.otan {
+    position: relative;
+}
+
+#octopus-start {
+    position: absolute;
+    height: 80vh;
+    width: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    top: 0;
+    right: -10vh;
+    transform: scale(0.95) translateY(-5vh);
+    transform-origin: right bottom;
+    padding-bottom: 2rem;
+    z-index: -1;
+}
+
+#octopus-end {
+    position: absolute;
+    height: 65vh;
+    width: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    bottom: -30vh;
+    right: 0;
+    padding-bottom: 2rem;
+    z-index: -1;
+    transform: translateX(-12%) scale(1.2);
+}
+
+.huge {
+    overflow: hidden;
+    white-space: nowrap;
+    display: grid;
+    grid-template-columns: 5% 49% 46%;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    font-size: 230px;
+}
+
+.huge span {
+    text-align: center;
+    font-family: "Phudu", sans-serif;
+    font-weight: bold;
+    transform-origin: center;
+    z-index: -1;
+}
+
+.huge span:first-child {
+    text-align: start;
+}
+
+.huge span:last-child {
+    text-align: end;
+}
+
+#change-word {
+    display: inline-block;
+    transform-origin: center;
+}
+
+.recent-project {
+    width: 46rem;
+    height: 14.8rem;
+    margin: 0 auto;
+    position: relative;
+}
+
+#recent {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 26.625rem;
+    height: 7.9375rem;
+    transform: rotate(-13.129deg);
+    background-color: var(--white);
+}
+
+#recent p {
+    margin: 0;
+    color: var(--red);
+    text-align: center;
+    font-family: Phudu;
+    font-size: 7.3125rem;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 7.9375rem;
+}
+
+#project {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: -99;
+    width: 29.16544rem;
+    height: 7.9375rem;
+    transform: rotate(8.585deg);
+    background-color: var(--red);
+}
+
+#project p {
+    margin: 0;
+    color: var(--white);
+    text-align: center;
+    font-family: Phudu;
+    font-size: 7.3125rem;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 7.9375rem;
+}
+
+.text-recent-project {
+    color: var(--white);
+    font-size: 1.2rem;
+}
+
+.strong-text {
+    color: var(--White);
+    text-align: center;
+    font-family: Phudu;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+
+.scroll-mouse {
+    left: 50%;
+    bottom: 8%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+#arrow {
+    display: none;
+}
+
+.text-title {
+    display: none;
+}
+
+.frame-mini {
+    margin-top: 1rem !important;
+    width: 100%;
+    height: 3.8rem;
+    padding: 0rem 1.2rem;
+    margin: 0;
+}
+
+.frame {
+    width: 100%;
+    height: 22.2rem;
+    padding: 2.8rem 3rem;
+    margin: 0;
+}
+
+.img-fr {
+    background-position: 50% 50%;
+    background-size: contain;
+}
+
+#img-xadoan {
+    background-image: url("img/xadoan.png");
+}
+
+.img-buddha {
+    background-image: url("img/buddha.png");
+    background-position: 50% 100% !important;
+}
+
+#img-sen {
+    background-image: url("img/sen.png");
+}
+
+.frame.box {
+    box-shadow: inset 0 0 0 3px var(--white);
+}
+
+.frame-mini.box {
+    box-shadow: inset 0 0 0 3px var(--white);
+}
+
+.frame-mini h6 {
+    color: var(--red);
+    font-family: Phudu;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 3.8rem;
+}
+
+.frame h6 {
+    color: var(--red);
+    font-family: Phudu;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.frame p {
+    color: var(--white);
+    font-family: Afacad;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.link {
+    height: 10rem;
+}
+
+.link {
+    color: var(--white);
+    text-align: center;
+    font-family: Phudu;
+    font-size: 2.5rem;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 10rem;
+}
+
+.link:hover {
+    text-decoration-color: var(--red);
+    text-decoration-thickness: var(--line);
+    text-decoration-line: underline;
+}
+
+#contact {
+    margin-top: 3rem;
+    height: 60vh;
+    border-top: var(--line) var(--red) solid;
+}
+
+#octopus-fly {
+    background: url(img/octopus-fly.gif) 62% 60% no-repeat;
+}
+
+#text-join {
+    color: var(--red);
+    font-family: Phudu;
+    font-size: 5rem;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+
+#btn-here {
+    background: none;
+    border-radius: 3.3125rem;
+    border: 5px solid var(--red);
+    width: 17rem;
+    height: 7rem;
+    color: var(--white);
+    text-align: center;
+    font-family: Phudu;
+    font-size: 4rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1rem;
+    transition: all 0.2s ease-in-out;
+}
+
+#btn-here:hover {
+    background-color: var(--red);
+    color: var(--white);
+}
+
+
+.btn-arrow {
+    color: transparent;
+    display: block;
+    width: 1.5rem;
+    padding: 1rem;
+    height: 1.5rem;
+    background-color: var(--black);
+    transition: all 150ms ease-out;
+}
+
+.btn-arrow::before,
+.btn-arrow::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--red);
+    transition: all 150ms ease-out;
+}
+
+.btn-arrow::before {
+    width: 75%;
+    height: 25%;
+}
+
+.btn-arrow::after {
+    width: 25%;
+    height: 75%;
+}
+
+.btn-arrow:hover,
+.btn-arrow:focus {
+    background-color: var(--black);
+}
+
+.btn-arrow:hover::before,
+.btn-arrow:focus::before,
+.btn-arrow:hover::after,
+.btn-arrow:focus::after {
+    background-color: var(--yellow);
+}
+
+.btn-arrow.btn-arrow-left::before,
+.btn-arrow.btn-arrow-right::before,
+.btn-arrow.btn-arrow-left::after,
+.btn-arrow.btn-arrow-right::after {
+    top: 12.5%;
+    left: 12.5%;
+}
+
+.btn-arrow.btn-arrow-left {
+    transform: rotate(-45deg);
+}
+
+.btn-arrow.btn-arrow-right {
+    transform: rotate(135deg);
+}
+
+.your-class,
+.your-class2 {
+    display: none;
+}
+
+.year {
+    position: absolute;
+    left: 2.8rem;
+    bottom: 1rem;
+}
+
+@media (min-width: 992px) {
+    .padding-xl {
+        padding-top: 10rem;
+    }
+
+}
+
+@media (max-width: 991px) {
+    .text-design {
+        grid-template-rows: 60vh auto !important;
+    }
+
+    .container {
+        max-width: 100%;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .huge {
+        grid-template-columns: none !important;
+        grid-template-rows: auto auto auto;
+    }
+
+    .huge span {
+        text-align: center !important;
+        transform-origin: center !important;
+    }
+
+    .text-design {
+        grid-template-rows: 10vh auto 14vh !important;
+    }
+
+    .recent-project {
+        width: 90% !important;
+    }
+
+    #recent {
+        width: 26.625rem;
+        height: 8.5rem !important;
+    }
+
+    #project {
+        width: 29.16544rem;
+        height: 8.5rem !important;
+    }
+
+    #mouse {
+        display: none;
+    }
+
+    #arrow {
+        display: block !important;
+    }
+
+
+    .text-description {
+        display: none;
+    }
+
+    .text-title {
+        display: block !important;
+    }
+
+    #contact {
+        height: 20rem !important;
+    }
+
+    #octopus-fly {
+        background: url(img/octopus-fly.gif) 59% 58% /350% no-repeat !important;
+    }
+
+    #text-join {
+        font-size: 2.25rem !important;
+    }
+
+    #btn-here {
+        border: 3px solid var(--red) !important;
+        width: 7.5rem !important;
+        height: 4rem !important;
+        font-size: 2rem !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .huge {
+        grid-template-columns: none !important;
+        grid-template-rows: auto auto auto;
+    }
+
+    .text-design {
+        grid-template-rows: 20vh auto 14vh !important;
+    }
+
+    .recent-project {
+        width: 90% !important;
+        height: 9.5rem !important;
+    }
+
+    #recent,
+    #project {
+        width: 15.8rem !important;
+        height: 4.5rem !important;
+    }
+
+    #recent p,
+    #project p {
+        font-size: 3.75rem !important;
+        line-height: 4.5rem !important;
+    }
+
+    #mouse {
+        display: none;
+    }
+
+    #arrow {
+        display: block !important;
+        transform: scale(0.7) translateX(-50%) translateY(-50%);
+        transform-origin: left center;
+    }
+
+    .text-recent-project {
+        font-size: 1.1rem !important;
+    }
+
+    .img-fr {
+        background-size: cover !important;
+    }
+
+    .img-buddha {
+        background-image: url("img/buddha2.png") !important;
+    }
+
+    #contact {
+        height: 36rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    #text-join {
+        font-size: 2.2rem !important;
+    }
+
+    .h-xs-60 {
+        height: 60% !important;
+    }
+
+    .h-xs-30 {
+        height: 30% !important;
+    }
+
+    #btn-here {
+        width: 9rem !important;
+    }
+
+    .your-class,
+    .your-class2 {
+        display: block !important;
+    }
+
+    .my-class {
+        display: none !important;
+    }
+}
+
+@media (max-width: 281px) {
+    .img-buddha {
+        background-image: url("img/buddha3.png") !important;
+    }
+}
+
+@media (max-width: 381px) {
+    #text-join {
+        font-size: 2rem !important;
+    }
+}

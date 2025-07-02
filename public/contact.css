@@ -1,0 +1,116 @@
+.eye-center svg {
+    width: 18.75rem;
+    height: 10.25rem;
+}
+
+section {
+    height: 95vh;
+}
+
+@keyframes blinkAnimation {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    8.4% {
+        transform: translateY(0);
+    }
+
+    16.65% {
+        transform: translateY(-100%);
+    }
+
+    33.33% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-100%);
+    }
+
+    66.66% {
+        transform: translateY(0);
+    }
+
+    75% {
+        transform: translateY(-100%);
+    }
+
+    77% {
+        transform: translateY(0%);
+    }
+
+    80% {
+        transform: translateY(-100%);
+    }
+
+    82% {
+        transform: translateY(0%);
+    }
+
+    88% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+#blink-1 {
+    animation: blinkAnimation 8s infinite ease-out;
+}
+
+.btn-contact {
+    width: 12.3125rem;
+    height: 4.4375rem;
+    border-radius: 2.21875rem;
+    border: 1px solid var(--white);
+    color: var(--white);
+    text-align: center;
+    font-family: Phudu;
+    font-size: 2.1875rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    background-color: #fff0;
+}
+
+.btn-contact:hover {
+    background-color: var(--red);
+    border: 1px solid var(--red);
+}
+
+.w75 {
+    width: 90%;
+}
+
+@media (max-width: 991px) {
+    .w75 {
+        width: 75%;
+        margin-top: 3rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .w75 {
+        width: auto;
+    }
+
+    .container {
+        margin-top: 2rem !important;
+    }
+
+    .btn-contact {
+        width: 12.3125rem;
+        height: 3.4375rem !important;
+    }
+}
+
+
+
+@media (max-width: 380px) {
+    .container {
+        margin-top: 4rem !important;
+    }
+}

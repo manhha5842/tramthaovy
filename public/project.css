@@ -1,0 +1,104 @@
+.title-text {
+    color: var(--white);
+    text-align: center;
+    font-family: Phudu;
+    font-size: 5.625rem;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 9.25rem;
+}
+
+.images {
+    overflow: hidden;
+    white-space: nowrap;
+    z-index: -1;
+}
+
+.image-slide {
+    white-space: nowrap;
+    font-size: 0;
+    animation: slide 20s infinite linear;
+    display: inline-block;
+}
+
+.image-slide img {
+    height: 8.5rem;
+    width: 8.5rem;
+    display: inline-block;
+    object-fit: cover
+}
+
+@keyframes slide {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.button {
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 1.25rem;
+    border: 2px solid var(--red);
+    width: 9.125rem;
+    padding: 0.7rem 3rem;
+    transition: all 0.2s ease-out;
+    cursor: pointer;
+    margin-top: 2rem;
+}
+
+.button:hover {
+    background-color: var(--white);
+    border: 2px solid var(--white);
+}
+
+.button-icon {
+    /* transform: scale(0.7);
+    transform-origin: 50% 50%; */
+    width: 2.5rem;
+    height: 1.37494rem;
+}
+
+.blink-btn {
+    transform: translateY(0);
+    transition: transform 0.5s ease-out;
+}
+
+hr {
+    height: var(--line) !important;
+    background-color: var(--red) !important;
+    opacity: 1 !important;
+    margin: 3rem 0;
+}
+
+@media (max-width: 991px) {
+
+    .title-text {
+        font-size: 4rem;
+        font-style: normal;
+        font-weight: 800;
+        line-height: 7rem;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .title-text {
+        font-size: 3rem;
+        font-style: normal;
+        font-weight: 800;
+        line-height: 7rem;
+    }
+
+    .container {
+        margin-top: 5rem !important;
+    }
+
+    footer {
+        margin-top: 3rem;
+        margin-bottom: 0;
+    }
+}
