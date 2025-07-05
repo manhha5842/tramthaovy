@@ -250,6 +250,29 @@
             max-width: 90vw;
             border: 2.5px solid #232323;
         }
+
+        #wordInput {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #232323;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Instrument Serif', serif;
+            font-weight: 400;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.2s;
+        }
+
+        h5 {
+            white-space: nowrap;
+            font-size: 20px;
+            margin: 0;
+        }
+
+        #langSelect,
+        #geminiKeyInput {
+            padding: 6px 12px !important;
+        }
     </style>
 </head>
 
@@ -257,24 +280,42 @@
 
     <div id="controls" class="glass-ui">
         <div style="width:100%;display:flex;flex-direction:column;align-items:center;gap:12px;">
+            <h1 style=" 
+ box-shadow: 0 4px 24px 0 #b4e39133, 0 2px 0 #fff inset;
+ FONT-SIZE: 48PX;
+ line-height: 14px;
+ text-shadow: 1px 1px 2px black,
+ 0 0 1em blue,
+ 0 0 0.2em blue;
+ color: white;
+ ">BRAINSTORM MACHINE</h1>
             <div id="start-form" style="display:flex;gap:12px;justify-content:center;align-items:center;width:100%;">
                 <input type="text" id="wordInput" placeholder="Enter a starting concept...">
                 <button id="startButton">Brainstorm</button>
             </div>
-            <div id="gemini-key-form" style="display:flex;justify-content:center;align-items:center;width:100%;">
-                <input type="text" id="geminiKeyInput" placeholder="Gemini API Key (optional)">
+            <div id="action-buttons" class="hidden"
+                style="display:flex;justify-content:center;align-items:center;width:100%;">
+                <button id="resetButton">Reset</button>
             </div>
-            <div id="lang-form" style="display:flex;justify-content:center;align-items:center;width:100%;">
+            <div>
+
+            </div>
+            <div id="lang-form"
+                style=" display: flex; justify-content: start; align-items: center; width: 100%; gap: 20px;">
+                <h5>Language: </h5>
                 <select id="langSelect">
                     <option value="en">English</option>
                     <option value="vi">Tiếng Việt</option>
                 </select>
+                <h5>Alternative API key: </h5>
+                <input type="text" id="geminiKeyInput" placeholder="Gemini API Key (optional)"
+                    style=" padding: 6px 12px;width: 100%;">
             </div>
-            <div id="action-buttons" class="hidden" style="display:flex;justify-content:center;align-items:center;width:100%;">
-                <button id="resetButton">Reset</button>
-            </div>
+
+
         </div>
-        <div id="key-note" style="display: block; padding: 10px 20px; border-radius: 12px; font-size: 22px; width: 100%; text-align: center; box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.08); backdrop-filter: blur(4px);">
+        <div id="key-note"
+            style="display: block; padding: 10px 20px; border-radius: 12px; font-size: 18px; width: 100%; text-align: center; box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.08); backdrop-filter: blur(4px);">
             <b>Note:</b> The default Gemini API key is limited and may run out of quota.<br>
             For unlimited use, get your own free Gemini API key at <a href="https://aistudio.google.com/apikey"
                 target="_blank"
@@ -296,7 +337,7 @@
     <script>
         window.onload = () => {
             // --- CONFIGURATION ---
-            let GEMINI_API_KEY = 'AIzaSyCVxdKrWHnYbKeuPfCSIJFQD56Lh8A0udw';
+            let GEMINI_API_KEY = 'AIzaSyADW8moV0HH-lrdLIp9c71P74gTwtM9EnE';
             const MAX_LEVEL = 5;
             const CHILDREN_PER_NODE = 5;
             const NODE_RADIUS = 70;
@@ -381,7 +422,7 @@
                     if (val) {
                         GEMINI_API_KEY = val;
                     } else {
-                        GEMINI_API_KEY = 'AIzaSyCVxdKrWHnYbKeuPfCSIJFQD56Lh8A0udw';
+                        GEMINI_API_KEY = 'AIzaSyADW8moV0HH-lrdLIp9c71P74gTwtM9EnE';
                     }
                 });
                 langSelect.addEventListener('change', () => {
@@ -421,10 +462,122 @@
             }
 
             // --- CORE LOGIC ---
+            // --- CONTEXT MENU FOR NODE ---
+            let contextMenuDiv;
+            // --- HIGHLIGHT STATE ---
+            let highlightedNodes = new Set();
+            function createContextMenu() {
+                if (contextMenuDiv) return;
+                contextMenuDiv = document.createElement('div');
+                contextMenuDiv.id = 'node-context-menu';
+                contextMenuDiv.style.position = 'absolute';
+                contextMenuDiv.style.zIndex = 99999;
+                contextMenuDiv.style.background = '#fff';
+                contextMenuDiv.style.border = '2px solid #232323';
+                contextMenuDiv.style.borderRadius = '12px';
+                contextMenuDiv.style.boxShadow = '0 4px 24px 0 #b4e39133';
+                contextMenuDiv.style.padding = '8px 0';
+                contextMenuDiv.style.display = 'none';
+                contextMenuDiv.style.minWidth = '140px';
+                document.body.appendChild(contextMenuDiv);
+                // Hide on click elsewhere
+                document.addEventListener('click', (e) => {
+                    if (contextMenuDiv.style.display === 'block') {
+                        contextMenuDiv.style.display = 'none';
+                    }
+                });
+            }
+
+            function showContextMenu(x, y, nodeDatum) {
+                createContextMenu();
+                // Dynamic menu content based on highlight state
+                let isHighlighted = highlightedNodes.has(nodeDatum.id);
+                contextMenuDiv.innerHTML = `
+                    <div style="padding:10px 18px;cursor:pointer;font-size:17px;" data-action="${isHighlighted ? 'unhighlight' : 'highlight'}">${isHighlighted ? '❌ Unhighlight' : '🔆 Highlight'}</div>
+                    <div style="padding:10px 18px;cursor:pointer;font-size:17px;" data-action="delete">🗑️ Delete</div>
+                    <div style="padding:10px 18px;cursor:pointer;font-size:17px;" data-action="add">➕ Add Node</div>
+                `;
+                contextMenuDiv.style.left = x + 'px';
+                contextMenuDiv.style.top = y + 'px';
+                contextMenuDiv.style.display = 'block';
+                // Remove previous listeners
+                contextMenuDiv.onclick = null;
+                contextMenuDiv.onmousedown = null;
+                contextMenuDiv.oncontextmenu = (e) => { e.preventDefault(); };
+                contextMenuDiv.onmousedown = (e) => { e.stopPropagation(); };
+                contextMenuDiv.onclick = async (e) => {
+                    if (!e.target.dataset.action) return;
+                    contextMenuDiv.style.display = 'none';
+                    if (e.target.dataset.action === 'highlight') {
+                        highlightedNodes.add(nodeDatum.id);
+                        updateHighlightStyles();
+                    } else if (e.target.dataset.action === 'unhighlight') {
+                        highlightedNodes.delete(nodeDatum.id);
+                        updateHighlightStyles();
+                    } else if (e.target.dataset.action === 'delete') {
+                        // Remove node and its links
+                        nodes = nodes.filter(n => n.id !== nodeDatum.id);
+                        links = links.filter(l => l.source !== nodeDatum.id && l.target !== nodeDatum.id && l.source.id !== nodeDatum.id && l.target.id !== nodeDatum.id);
+                        highlightedNodes.delete(nodeDatum.id);
+                        updateSimulation();
+                        updateHighlightStyles();
+                    } else if (e.target.dataset.action === 'add') {
+                        // Prompt for new node name
+                        let newNodeName = prompt('Enter new node name:');
+                        if (newNodeName) {
+                            newNodeName = newNodeName.trim();
+                            if (!newNodeName) return;
+                            // Place new node near parent
+                            const angle = Math.random() * 2 * Math.PI;
+                            const radius = 220;
+                            const x = (typeof nodeDatum.x === 'number' ? nodeDatum.x : 0) + radius * Math.cos(angle);
+                            const y = (typeof nodeDatum.y === 'number' ? nodeDatum.y : 0) + radius * Math.sin(angle);
+                            nodes.push({ id: newNodeName, level: (nodeDatum.level || 0) + 1, x, y });
+                            links.push({ source: nodeDatum.id, target: newNodeName });
+                            updateSimulation();
+                            updateHighlightStyles();
+                        }
+                    }
+                };
+            }
+
+            function updateHighlightStyles() {
+                group.selectAll('.node').each(function(d) {
+                    const circle = d3.select(this).select('circle.main-circle');
+                    if (highlightedNodes.has(d.id)) {
+                        circle.style('stroke', '#ffb700')
+                              .style('stroke-width', '6px')
+                              .style('filter', 'drop-shadow(0 0 12px #ffe066)');
+                    } else {
+                        circle.style('stroke', '#232323')
+                              .style('stroke-width', '2.5px')
+                              .style('filter', null);
+                    }
+                });
+            }
+
+            // --- PATCH NODE RENDERING TO ADD CONTEXT MENU ---
+            function patchNodeContextMenu() {
+                group.selectAll('.node')
+                    .attr('data-node-id', d => d.id)
+                    .on('contextmenu', function (event, d) {
+                        event.preventDefault();
+                        showContextMenu(event.pageX, event.pageY, d);
+                    });
+            }
+
+            // --- PATCH updateSimulation TO CALL patchNodeContextMenu ---
+            const origUpdateSimulation = updateSimulation;
+            updateSimulation = function () {
+                origUpdateSimulation();
+                patchNodeContextMenu();
+                updateHighlightStyles();
+            };
+
+            // --- EXPAND NODE (LEFT CLICK) ---
             async function expandNode(event, d) {
                 if (d.isExpanded || d.level >= MAX_LEVEL || d.isExpanding) return;
                 d.isExpanding = true;
-                // Show vieneff effect (highlight border only, no spin)
                 const nodeElement = d3.select(event.currentTarget);
                 const vien = nodeElement.select('circle.vieneff');
                 vien.style('display', 'block')
@@ -434,6 +587,28 @@
                 // Highlight the node being expanded
                 const mainCircle = nodeElement.select('circle.main-circle');
                 mainCircle.style('fill', 'rgba(255, 255, 180, 0.7)'); // yellow highlight
+
+                // Add loading spinner
+                let spinner = nodeElement.select('g.node-loading-spinner');
+                if (spinner.empty()) {
+                    spinner = nodeElement.append('g')
+                        .attr('class', 'node-loading-spinner')
+                        .attr('transform', `rotate(0) translate(${NODE_RADIUS + 18},0)`);
+                    spinner.append('circle')
+                        .attr('r', 10)
+                        .attr('cx', 0)
+                        .attr('cy', 0);
+                }
+
+                let spinAngle = 0;
+                let spinActive = true;
+                function animateSpinner() {
+                    if (!spinActive) return;
+                    spinAngle = (spinAngle + 3) % 360;
+                    spinner.attr('transform', `rotate(${spinAngle}) translate(${NODE_RADIUS + 18},0)`);
+                    requestAnimationFrame(animateSpinner);
+                }
+                animateSpinner();
 
                 try {
                     // Fetch related words and their definitions in one go
@@ -476,9 +651,74 @@
                     mainCircle.style('fill', 'rgba(255, 150, 150, 0.7)'); // error red
                     vien.transition().duration(200).style('opacity', 0).on('end', () => vien.style('display', 'none'));
                 } finally {
+                    spinActive = false;
+                    spinner.remove();
                     d.isExpanding = false;
                 }
             }
+        // --- USER GUIDE PANEL LOGIC ---
+        // Add user guide panel to DOM if not present
+        if (!document.getElementById('user-guide-panel')) {
+            const guideDiv = document.createElement('div');
+            guideDiv.id = 'user-guide-panel';
+            guideDiv.innerHTML = `
+                <button id="user-guide-toggle" title="Minimize/Expand">– How to  use</button>
+                <div id="user-guide-content">
+                    <ul style="margin:8px 0 0 18px;padding:0;">
+                        <li>Enter a concept and click <b>Brainstorm</b> to start.</li>
+                        <li>Left click a node to expand related ideas.</li>
+                        <li>Right click a node for options:
+                            <ul style="margin:2px 0 0 14px;padding:0;font-size:15px;">
+                                <li><b>Highlight</b>: Mark node for focus.</li>
+                                <li><b>Unhighlight</b>: Remove highlight.</li>
+                                <li><b>Delete</b>: Remove node and links.</li>
+                                <li><b>Add Node</b>: Add a custom child node.</li>
+                            </ul>
+                        </li>
+                        <li>Drag nodes to reposition.</li>
+                        <li>Use mouse wheel or pinch to zoom/pan.</li>
+                        <li>Hover a node to see its definition.</li>
+                    </ul>
+                </div>
+            `;
+            // Set absolute position, bottom left
+            guideDiv.style.position = 'absolute';
+            guideDiv.style.left = '24px';
+            guideDiv.style.bottom = '24px';
+            guideDiv.style.zIndex = 10000;
+            // guideDiv.style.background = 'rgba(255,255,255,0.95)';
+            guideDiv.style.border = '2.5px solid #232323';
+            guideDiv.style.borderRadius = '18px';
+            guideDiv.style.boxShadow = '0 4px 24px 0 #b4e39133';
+            guideDiv.style.padding = '18px 24px 18px 18px';
+            guideDiv.style.minWidth = '260px';
+            guideDiv.style.maxWidth = '340px';
+            guideDiv.style.fontFamily = "'Instrument Serif', serif";
+            guideDiv.style.fontSize = '17px';
+            guideDiv.style.color = '#232323';
+            guideDiv.style.userSelect = 'text';
+            guideDiv.style.transition = 'opacity 0.2s';
+            guideDiv.style.setProperty('backdrop-filter', 'blur(4px)');
+            document.body.appendChild(guideDiv);
+        }
+        const userGuidePanel = document.getElementById('user-guide-panel');
+        const userGuideToggle = document.getElementById('user-guide-toggle');
+        const userGuideContent = document.getElementById('user-guide-content');
+        let userGuideMinimized = false;
+        userGuideToggle.onclick = function() {
+            userGuideMinimized = !userGuideMinimized;
+            if (userGuideMinimized) {
+                userGuidePanel.classList.add('minimized');
+                userGuideToggle.textContent = `+ How to  use`;
+                userGuideToggle.title = 'Expand';
+                userGuideContent.style.display = 'none';
+            } else {
+                userGuidePanel.classList.remove('minimized');
+                userGuideToggle.textContent = `– How to  use`;
+                userGuideToggle.title = 'Minimize';
+                userGuideContent.style.display = '';
+            }
+        };
 
             // --- D3 RENDERING ---
             function updateSimulation() {
@@ -532,11 +772,16 @@
                     showApiError((CURRENT_LANG === 'vi') ? 'Bạn chưa nhập Gemini API key.' : 'No Gemini API key provided.');
                     throw new Error("API key not provided.");
                 }
-                const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+                // Gemini 2.0 Flash endpoint and X-goog-api-key header
+                const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`;
                 let response;
                 try {
                     response = await fetch(API_URL, {
-                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-goog-api-key': GEMINI_API_KEY
+                        },
                         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
                     });
                 } catch (err) {

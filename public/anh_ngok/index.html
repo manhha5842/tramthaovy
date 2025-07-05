@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vietnamese Meme Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&family=Fira+Mono:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ffb700;
+            --secondary-color: #ff3c6f;
+            --background-gradient: linear-gradient(135deg, #3a1c71 0%, #d76d77 50%, #ffaf7b 100%);
+            --text-color: #fff;
+            --card-bg: #6d3a1c;
+            --border-radius: 24px;
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --gold: #ffd700;
+            --wood: #a86c1c;
+            --green-btn: #3be800;
+        }
+
+        body {
+            font-family: 'Fira Mono', 'Roboto', Arial, monospace;
+            background: linear-gradient(135deg, #3a1c71 0%, #d76d77 50%, #ffaf7b 100%);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 520px;
+            background: linear-gradient(120deg, #a86c1c 0%, #ffd700 100%);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            border: 6px solid #fffbe6;
+            padding: 32px;
+            position: relative;
+        }
+
+        .meme-header {
+            background: linear-gradient(90deg, #ffb700 0%, #ff3c6f 100%);
+            border-radius: 32px;
+            box-shadow: 0 8px 24px #ff3c6f55;
+            padding: 32px 0 18px 0;
+            position: relative;
+        }
+
+        .meme-header h1 {
+            color: #fff;
+            font-size: 2.6rem;
+            margin: 0;
+            letter-spacing: 2px;
+            font-family: 'Fira Mono', 'Roboto', monospace;
+            text-shadow: 0 2px 8px #ff3c6f99, 0 0 16px #ffd70099;
+        }
+
+        .meme-header .subtitle {
+            color: #fffbe6;
+            font-size: 1.15rem;
+            margin-top: 8px;
+            margin-bottom: 0;
+            font-family: 'Fira Mono', 'Roboto', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        textarea {
+            width: 92%;
+            padding: 18px;
+            border: 2.5px solid #232323;
+            border-radius: 14px;
+            font-size: 18px;
+            font-family: 'Fira Mono', 'Roboto', monospace;
+            box-sizing: border-box;
+            min-height: 90px;
+            margin: 24px 0 16px 0;
+            background: #fffbe6;
+            color: #232323;
+            transition: border-color 0.3s;
+            outline: none;
+            box-shadow: 0 2px 8px #ffd70033;
+        }
+
+        textarea:focus {
+            border-color: #ff3c6f;
+        }
+
+        .button {
+            background: linear-gradient(90deg, #3be800 0%, #ffd700 100%);
+            color: #232323;
+            border: 2.5px solid #232323;
+            padding: 15px 38px;
+            font-size: 22px;
+            font-family: 'Fira Mono', 'Roboto', monospace;
+            font-weight: 700;
+            border-radius: 32px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.1s, color 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 16px #3be80033;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            background: linear-gradient(90deg, #ffd700 0%, #3be800 100%);
+            color: #2e1a47;
+            transform: scale(1.04);
+        }
+
+        .button:active {
+            transform: scale(0.98);
+        }
+
+        #meme-result {
+            margin-top: 32px;
+            display: none;
+        }
+
+        #meme-canvas {
+            display: none;
+            margin: 0 auto;
+            border-radius: 18px;
+            border: 6px solid #ffd700;
+            box-shadow: 0 4px 24px #ff3c6f33, 0 0 32px #ffd70055;
+            background: #fffbe6;
+            max-width: 100%;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 4/3;
+        }
+
+        #meme-canvas[style*="display: block"] {
+            display: block;
+        }
+
+        #loader {
+            display: none;
+            margin: 24px auto;
+            border: 10px solid #fffbe6;
+            border-radius: 50%;
+            border-top: 10px solid #ff3c6f;
+            width: 70px;
+            height: 70px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #error-message {
+            color: #fff;
+            background: #ff3c6f;
+            font-weight: bold;
+            margin-top: 18px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            display: none;
+            box-shadow: 0 2px 8px #ff3c6f33;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="meme-header">
+            <h1>MEME CONTEXT GENERATOR</h1>
+            <div class="subtitle">Nhập tình huống bất kỳ, AI sẽ chọn quote "chất" nhất cho bạn!</div>
+        </div>
+        <textarea id="situation-input" placeholder="Nhập tình huống hoặc bối cảnh meme..."></textarea>
+        <button id="generate-btn" class="button">TẠO MEME</button>
+        <div id="loader"></div>
+        <p id="error-message"></p>
+        <div id="meme-result">
+            <canvas id="meme-canvas"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const API_KEY = 'AIzaSyC5QiUhYdb57h415WCZWKPFdy82TbJC7v0';
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
+
+        const QUOTES = [
+            "Chuẩn, hoàn toàn chuẩn! Nhưng mình .. nhưng bạn đã bị block vì bạn không tôn trọng mình!",
+            "Điều đó quan trọng với em lắm sao?",
+            "Anh sống như thế đấy em",
+            "Ồ, bạn ấy siêu quá!",
+            "Tiền ít thì mình mua cái ít tiền, đâu nhất thiết phải như anh...",
+            "May quá, con anh không biết cậu Sơn Tùng kia là ai",
+            "Càng đi nhiều, người ta càng không so sánh em ạ, vì không nơi nào giống nơi nào. Đây là điều anh đã học được sau các chuyến đi.",
+            "Anh biết, nhưng như thế là quá ít",
+            "Mọi việc không như em nghĩ đâu",
+            "Bạn Chỉnh ơi, Chỉnh đang comment một câu anh không thích một chút nào nhé.",
+            "Quá hài hước em ạ",
+            "Ồ, sao em lại nói thế?",
+            "Buồn cười thật sự luôn đấy!",
+            "Trình thấp nó thế em ạ",
+            "4 tiếng trước thì như thế, nhưng bây giờ khác rồi",
+            "MNSD, thảo nào...",
+            "Có ai bay 10 nghìn km sang đây chỉ để post 1 cái ảnh photoshop không? Bạn có vấn đề gì về tư duy không?",
+            "Anh không bao giờ nói vậy em nhé",
+            "Thời gian sẽ trả lời thôi em",
+            "Chưa chính thức, nhưng anh đón đầu sự kiện.",
+            "Em mail hoặc gọi hotline UEFA nhé. Họ sẽ giúp em.",
+            "Sex, luôn là sex",
+            "Nói có chủ ngữ đi bạn nhỉ. Nên nhớ, đây là nhà mình. Bạn đang nói chuyện với ai thế, qua comment này?",
+            "Kịch bản ấy đẹp, nhưng khó xảy ra",
+            "Bạn viết tâm thư lên Liên hợp quốc nhé. Chắc là họ lắng nghe bạn đấy.",
+            "Chém gió tí cho vui mà em",
+            "Cappuccino pha bằng máy Ý và cafe nhập từ Ý mà em",
+            "Nhà anh, anh thích thì anh khoe, có quy định nào cấm khoe không em?",
+            "Nick ảo ơi, chào bạn. Người thông minh và tử tế, ai lại dùng nick nặc danh thế...",
+            "Tôi chụp bằng iPhone 8 Plus mới tinh đấy ông",
+            "Xin chào, có phải là anh đang tìm kiếm em không?",
+            "Cảm ơn em đã nhìn ra một ý mà anh đã cố tình khéo léo ẩn đi khi viết cái post này",
+            "Em cười gì anh đấy, cho ý kiến đi em…",
+            "Em thiếu vốn sống, thiếu lòng trắc ẩn, thiếu cả tư duy để nhận xét về các câu chuyện thời cuộc",
+            "Và anh nhắc 1 lần nữa, đừng làm cái việc ngu ngốc là tiếp tục chụp màn hình những đoạn chat này và đưa ra ngoài"
+        ];
+
+        // Character images: random from 1 to 4
+        const CHARACTERS = [
+            'https://tramthaovy.id.vn/anh_ngok_wallpaper/1.jpg',
+            'https://tramthaovy.id.vn/anh_ngok_wallpaper/2.jpg',
+            'https://tramthaovy.id.vn/anh_ngok_wallpaper/3.jpg',
+            'https://tramthaovy.id.vn/anh_ngok_wallpaper/4.jpg'
+        ];
+
+        // --- DOM Elements ---
+        const situationInput = document.getElementById('situation-input');
+        const generateBtn = document.getElementById('generate-btn');
+        const loader = document.getElementById('loader');
+        const errorMessage = document.getElementById('error-message');
+        const memeResultDiv = document.getElementById('meme-result');
+        const canvas = document.getElementById('meme-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // --- Event Listener ---
+        generateBtn.addEventListener('click', handleMemeGeneration);
+
+        // --- Main Function ---
+        async function handleMemeGeneration() {
+            const situation = situationInput.value.trim();
+            if (!situation) {
+                showError("Vui lòng nhập một tình huống!");
+                return;
+            }
+
+            setLoading(true);
+
+            try {
+                const quote = await getQuoteFromGemini(situation);
+                const characterUrl = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
+                await drawCanvas(characterUrl, quote);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error during meme generation:", error);
+                showError("Có lỗi xảy ra khi tạo meme. Có thể do API Key hoặc kết nối mạng. Sẽ dùng một quote ngẫu nhiên.");
+                // Fallback to random quote on error
+                const randomQuote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+                const characterUrl = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
+                await drawCanvas(characterUrl, randomQuote);
+                setLoading(false);
+            }
+        }
+
+        // --- UI Helper Functions ---
+        function setLoading(isLoading) {
+            if (isLoading) {
+                loader.style.display = 'block';
+                memeResultDiv.style.display = 'none';
+                errorMessage.style.display = 'none';
+                generateBtn.disabled = true;
+                generateBtn.style.cursor = 'not-allowed';
+                generateBtn.style.opacity = '0.7';
+            } else {
+                loader.style.display = 'none';
+                memeResultDiv.style.display = 'block';
+                generateBtn.disabled = false;
+                generateBtn.style.cursor = 'pointer';
+                generateBtn.style.opacity = '1';
+                errorMessage.textContent = '';
+                errorMessage.style.display = 'none';
+            }
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            loader.style.display = 'none';
+        }
+
+        // --- AI Quote Selection ---
+        const RECENT_QUOTES_LIMIT = 3;
+        let recentQuoteIndexes = [];
+        async function getQuoteFromGemini(situation) {
+            const quoteListForPrompt = QUOTES.map((q, i) => `${i}. "${q}"`).join('\n');
+            let avoidText = '';
+            if (recentQuoteIndexes.length > 0) {
+                avoidText = `\nLưu ý: Để tạo sự đa dạng, KHÔNG được chọn lại các quote đã chọn gần đây (index: ${recentQuoteIndexes.join(', ')}). Chỉ chọn lại nếu không còn quote nào phù hợp hơn.`;
+            }
+            const prompt = `
+                Analyze the user's situation and choose the most suitable and humorous quote from the following list.
+                The user's situation is: "${situation}"
+                List of quotes:
+                ${quoteListForPrompt}
+                Your response MUST BE ONLY the index number of the chosen quote. Do not add any explanation or other text.${avoidText}
+            `;
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{ text: prompt }]
+                    }]
+                })
+            });
+            if (!response.ok) {
+                let errorData = null;
+                try { errorData = await response.json(); } catch (e) { }
+                console.error("API Error:", errorData);
+                throw new Error(`API request failed with status ${response.status}`);
+            }
+            const data = await response.json();
+            const textResponse = data.candidates[0].content.parts[0].text.trim();
+            const quoteIndex = parseInt(textResponse.match(/\d+/)[0], 10);
+            if (!isNaN(quoteIndex) && quoteIndex >= 0 && quoteIndex < QUOTES.length) {
+                // Lưu lại các quote đã chọn gần đây
+                recentQuoteIndexes.push(quoteIndex);
+                if (recentQuoteIndexes.length > RECENT_QUOTES_LIMIT) {
+                    recentQuoteIndexes.shift();
+                }
+                return QUOTES[quoteIndex];
+            } else {
+                console.warn("Invalid index from API, falling back to random.");
+                return QUOTES[Math.floor(Math.random() * QUOTES.length)];
+            }
+        }
+
+        // --- Canvas Drawing Logic ---
+        function drawCanvas(imageUrl, quoteText) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = imageUrl;
+
+                img.onload = () => {
+                    // Set canvas to 4:3 aspect ratio
+                    const canvasWidth = 800;
+                    const canvasHeight = 600;
+                    canvas.width = canvasWidth;
+                    canvas.height = canvasHeight;
+
+                    // Clear canvas
+                    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+                    // Draw image with "cover" effect
+                    const canvasRatio = canvasWidth / canvasHeight;
+                    const imgRatio = img.width / img.height;
+                    let drawWidth, drawHeight, offsetX, offsetY;
+
+                    if (imgRatio > canvasRatio) { // Image is wider
+                        drawHeight = canvasHeight;
+                        drawWidth = drawHeight * imgRatio;
+                        offsetX = (drawWidth - canvasWidth) / 2;
+                        offsetY = 0;
+                    } else { // Image is taller or same ratio
+                        drawWidth = canvasWidth;
+                        drawHeight = drawWidth / imgRatio;
+                        offsetY = (drawHeight - canvasHeight) / 2;
+                        offsetX = 0;
+                    }
+                    ctx.drawImage(img, -offsetX, -offsetY, drawWidth, drawHeight);
+
+                    // Draw text
+                    drawMemeText(quoteText, canvasWidth, canvasHeight);
+
+                    // Show canvas (not export to image)
+                    canvas.style.display = 'block';
+                    memeResultDiv.style.display = 'block';
+                    resolve();
+                };
+
+                img.onerror = () => {
+                    showError('Không thể tải ảnh meme!');
+                    resolve();
+                };
+            });
+        }
+
+        function drawMemeText(text, canvasWidth, canvasHeight) {
+            // Responsive font size
+            let fontSize = Math.max(28, Math.round(canvasWidth / 18));
+            const padding = Math.max(12, Math.round(canvasWidth * 0.025));
+            const bottomMargin = Math.max(16, Math.round(canvasHeight * 0.03));
+            const lineHeight = fontSize * 1.18;
+
+            ctx.font = `bold ${fontSize}px 'Fira Mono', 'Roboto', monospace`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            ctx.fillStyle = 'white';
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = Math.max(4, Math.round(fontSize / 6));
+
+            // Wrap text
+            const lines = wrapText(ctx, text, canvasWidth - padding * 2);
+
+            // Draw lines from bottom up
+            let y = canvasHeight - bottomMargin;
+            for (let i = lines.length - 1; i >= 0; i--) {
+                const line = lines[i];
+                const x = canvasWidth / 2;
+                ctx.strokeText(line, x, y);
+                ctx.fillText(line, x, y);
+                y -= lineHeight;
+            }
+        }
+
+        function wrapText(context, text, maxWidth) {
+            const words = text.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                const word = words[i];
+                const width = context.measureText(currentLine + " " + word).width;
+                if (width < maxWidth) {
+                    currentLine += " " + word;
+                } else {
+                    lines.push(currentLine);
+                    currentLine = word;
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+    </script>
+</body>
+
+</html>
