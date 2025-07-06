@@ -11,22 +11,20 @@
         rel="stylesheet">
     <style>
         :root {
-            --primary-color: #ffb700;
-            --secondary-color: #ff3c6f;
-            --background-gradient: linear-gradient(135deg, #3a1c71 0%, #d76d77 50%, #ffaf7b 100%);
-            --text-color: #fff;
-            --card-bg: #6d3a1c;
-            --border-radius: 24px;
-            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            --gold: #ffd700;
-            --wood: #a86c1c;
-            --green-btn: #3be800;
+            --primary-yellow: #ffe600;
+            --poster-blue: #1a8cff;
+            --poster-black: #111;
+            --poster-green: #00ff5a;
+            --poster-red: #ff2a2a;
+            --poster-border: 6px solid #111;
+            --poster-radius: 18px;
+            --poster-shadow: 0 0 0 6px #111, 0 0 24px #222;
         }
 
         body {
-            font-family: 'Fira Mono', 'Roboto', Arial, monospace;
-            background: linear-gradient(135deg, #3a1c71 0%, #d76d77 50%, #ffaf7b 100%);
-            color: var(--text-color);
+            font-family: 'Fira Mono', 'Roboto', Arial, sans-serif;
+            background: #1a8cff;
+            color: var(--poster-black);
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -37,84 +35,100 @@
 
         .container {
             width: 100%;
-            max-width: 520px;
-            background: linear-gradient(120deg, #a86c1c 0%, #ffd700 100%);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
+            max-width: 700px;
+            background: #fff;
+            border: var(--poster-border);
+            border-radius: var(--poster-radius);
+            box-shadow: none;
             text-align: center;
-            border: 6px solid #fffbe6;
-            padding: 32px;
+            padding: 28px 18px 24px 18px;
             position: relative;
         }
 
         .meme-header {
-            background: linear-gradient(90deg, #ffb700 0%, #ff3c6f 100%);
-            border-radius: 32px;
-            box-shadow: 0 8px 24px #ff3c6f55;
-            padding: 32px 0 18px 0;
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0 0 10px 0;
+            margin-bottom: 10px;
             position: relative;
         }
 
         .meme-header h1 {
-            color: #fff;
-            font-size: 2.6rem;
+            color: #111;
+            font-size: 2.3rem;
             margin: 0;
-            letter-spacing: 2px;
-            font-family: 'Fira Mono', 'Roboto', monospace;
-            text-shadow: 0 2px 8px #ff3c6f99, 0 0 16px #ffd70099;
+            letter-spacing: 1.5px;
+            font-family: 'Fira Mono', 'Roboto', Arial, sans-serif;
+            text-shadow: none;
+            text-transform: uppercase;
+            background: #39ff14;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 8px;
+            border: 3px solid #111;
         }
 
         .meme-header .subtitle {
-            color: #fffbe6;
-            font-size: 1.15rem;
-            margin-top: 8px;
+            color: #fff;
+            font-size: 1.08rem;
+            margin-top: 12px;
             margin-bottom: 0;
-            font-family: 'Fira Mono', 'Roboto', monospace;
+            font-family: 'Fira Mono', 'Roboto', Arial, sans-serif;
             letter-spacing: 0.5px;
+            font-weight: bold;
+            text-shadow: none;
+            background: #ff2a2a;
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 6px;
+            border: 2px solid #111;
         }
 
         textarea {
-            width: 92%;
-            padding: 18px;
-            border: 2.5px solid #232323;
-            border-radius: 14px;
-            font-size: 18px;
-            font-family: 'Fira Mono', 'Roboto', monospace;
+            width: 96%;
+            padding: 16px;
+            border: 3px solid #111;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-family: 'Fira Mono', 'Roboto', Arial, sans-serif;
             box-sizing: border-box;
-            min-height: 90px;
-            margin: 24px 0 16px 0;
-            background: #fffbe6;
-            color: #232323;
-            transition: border-color 0.3s;
+            min-height: 70px;
+            margin: 18px 0 10px 0;
+            background: #fff;
+            color: #111;
+            box-shadow: none;
             outline: none;
-            box-shadow: 0 2px 8px #ffd70033;
+            font-weight: bold;
         }
 
         textarea:focus {
-            border-color: #ff3c6f;
+            border-color: #111;
+            background: #e6f7ff;
         }
 
         .button {
-            background: linear-gradient(90deg, #3be800 0%, #ffd700 100%);
-            color: #232323;
-            border: 2.5px solid #232323;
-            padding: 15px 38px;
-            font-size: 22px;
-            font-family: 'Fira Mono', 'Roboto', monospace;
+            background: #39ff14;
+            color: #111;
+            border: 3px solid #111;
+            padding: 13px 32px;
+            font-size: 1.15rem;
+            font-family: 'Fira Mono', 'Roboto', Arial, sans-serif;
             font-weight: 700;
-            border-radius: 32px;
+            border-radius: 18px;
             cursor: pointer;
-            transition: background 0.3s, transform 0.1s, color 0.2s;
+            transition: background 0.2s, transform 0.1s, color 0.2s;
             text-decoration: none;
             display: inline-block;
-            box-shadow: 0 4px 16px #3be80033;
+            box-shadow: none;
             letter-spacing: 1px;
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .button:hover {
-            background: linear-gradient(90deg, #ffd700 0%, #3be800 100%);
-            color: #2e1a47;
+            background: #fff;
+            color: #111;
             transform: scale(1.04);
         }
 
@@ -123,16 +137,16 @@
         }
 
         #meme-result {
-            margin-top: 32px;
+            margin-top: 24px;
             display: none;
         }
 
         #meme-canvas {
             display: none;
             margin: 0 auto;
-            border-radius: 18px;
-            border: 6px solid #ffd700;
-            box-shadow: 0 4px 24px #ff3c6f33, 0 0 32px #ffd70055;
+            border-radius: 16px;
+            border: 6px solid #111;
+            box-shadow: none;
             background: #fffbe6;
             max-width: 100%;
             width: 100%;
@@ -146,12 +160,12 @@
 
         #loader {
             display: none;
-            margin: 24px auto;
-            border: 10px solid #fffbe6;
+            margin: 18px auto;
+            border: 8px solid #fffbe6;
             border-radius: 50%;
-            border-top: 10px solid #ff3c6f;
-            width: 70px;
-            height: 70px;
+            border-top: 8px solid #111;
+            width: 54px;
+            height: 54px;
             animation: spin 1s linear infinite;
         }
 
@@ -167,13 +181,20 @@
 
         #error-message {
             color: #fff;
-            background: #ff3c6f;
+            background: #ff2a2a;
             font-weight: bold;
-            margin-top: 18px;
-            padding: 10px 18px;
+            margin-top: 12px;
+            padding: 8px 14px;
             border-radius: 10px;
             display: none;
-            box-shadow: 0 2px 8px #ff3c6f33;
+            box-shadow: none;
+            border: 2px solid #111;
+        }
+
+        /* Xóa style .star và .arrow đỏ */
+        .star,
+        .arrow {
+            display: none !important;
         }
     </style>
 </head>

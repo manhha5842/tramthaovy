@@ -1,664 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liquid Brainstorm</title>
+    <title>Web Nhổ Lông Mũi 3000</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-
-        /* --- Animated Liquid Background --- */
-        body,
-        html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            font-family: 'Inter', sans-serif;
-            color: #fff;
-            background: linear-gradient(135deg, #89f7fe, #66a6ff, #c471ed, #f64f59);
-            background-size: 400% 400%;
-            animation: gradientAnimation 15s ease infinite;
-        }
-
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        /* --- Glassmorphism UI Elements --- */
-        .glass-ui {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-        }
-
-        #controls {
-            position: absolute;
-            top: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            padding: 18px 24px;
+        /* CSS để tạo giao diện */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            flex-wrap: wrap;
-            gap: 14px 18px;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            min-width: 320px;
-            max-width: 98vw;
-            box-sizing: border-box;
-        }
-
-        #controls>div {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        #controls input,
-        #controls select {
-            border: none;
-            background: rgba(255, 255, 255, 0.18);
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 16px;
-            color: #fff;
-            min-width: 0;
-            outline: none;
-            transition: background 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.04);
-        }
-
-        #controls input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        #controls input:focus,
-        #controls select:focus {
-            background: rgba(255, 255, 255, 0.28);
-            box-shadow: 0 0 0 2px #ffe066;
-        }
-
-        #controls button {
-            border: none;
-            background: linear-gradient(90deg, #4f8cff 0%, #a471ed 100%);
-            color: white;
-            padding: 12px 28px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
-            transition: background 0.2s, box-shadow 0.2s;
-        }
-
-        #controls button:hover {
-            background: linear-gradient(90deg, #3b6be0 0%, #7c4fd1 100%);
-            box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.12);
-        }
-
-        #controls select {
-            min-width: 120px;
-            background: rgba(255, 255, 255, 0.18);
-            color: #222;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        svg {
-            width: 100vw;
             height: 100vh;
-            min-height: 400px;
+            background-color: #f0f8ff; /* Màu xanh da trời nhạt (AliceBlue) */
+            text-align: center;
+            margin: 0;
+            overflow: hidden; /* Ẩn thanh cuộn */
+            color: #333;
         }
 
-        @media (max-width: 700px) {
-            #controls {
-                flex-direction: column;
-                align-items: stretch;
-                padding: 12px 4vw;
-                gap: 10px 0;
-            }
-
-            #controls>div {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 8px;
-            }
-
-            #controls input,
-            #controls select,
-            #controls button {
-                width: 100%;
-                min-width: 0;
-                font-size: 15px;
-            }
+        h1 {
+            color: #ff6347; /* Màu cà chua (Tomato) */
         }
 
-        /* --- SVG Node & Link Styling --- */
-        .node {
-            cursor: grab;
+        p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
         }
 
-        .node:active {
-            cursor: grabbing;
+        .nose-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
         }
 
-        .node circle.main-circle {
-            stroke: rgba(255, 255, 255, 0.5);
-            stroke-width: 2px;
-            fill: rgba(255, 255, 255, 0.25);
-            transition: fill 0.2s, transform 0.2s ease;
-        }
-
-        .node:hover circle.main-circle {
-            fill: rgba(255, 255, 255, 0.4);
-            transform: scale(1.05);
-        }
-
-        .node text {
-            text-anchor: middle;
-            dominant-baseline: central;
-            font-size: 16px;
-            font-weight: 500;
-            fill: #fff;
-            pointer-events: none;
-            user-select: none;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-
-        .link {
-            stroke: rgba(255, 255, 255, 0.6);
-            stroke-width: 2px;
-            stroke-opacity: 0.7;
-        }
-
-        .vieneff {
-            fill: none;
-            stroke: #ffe066;
-            stroke-width: 7px;
-            stroke-dasharray: 0;
-            stroke-linecap: round;
-            opacity: 1;
-            pointer-events: none;
-            filter: drop-shadow(0 0 8px #ffe066cc);
-            transition: opacity 0.2s, stroke-width 0.2s;
-        }
-
-
-        /* --- Tooltip --- */
-        #tooltip {
+        .nose {
+            width: 180px;
+            height: 150px;
+            background-color: #ffdab9; /* Màu da đào (PeachPuff) */
+            border: 4px solid #d2b48c; /* Màu rám nắng (Tan) */
+            /* Tạo hình dạng giống cái mũi hơn */
+            border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
             position: absolute;
-            padding: 10px 14px;
-            font-size: 14px;
-            max-width: 250px;
-            text-align: center;
-            z-index: 20;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        #tooltip.visible {
-            opacity: 1;
-        }
-
-        /* --- API Error Notification --- */
-        #api-error {
-            position: fixed;
-            top: 0;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 80, 80, 0.97);
-            color: #fff;
-            padding: 14px 32px;
-            font-size: 17px;
-            font-weight: 600;
-            border-radius: 0 0 16px 16px;
-            box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.13);
-            z-index: 9999;
-            display: none;
-            text-align: center;
-            max-width: 90vw;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .nostril {
+            width: 30px;
+            height: 50px;
+            background-color: #5c3c1d; /* Màu nâu sẫm */
+            border-radius: 50%;
+            position: absolute;
+            bottom: 15px;
+        }
+
+        .nostril.left {
+            left: 35px;
+            transform: rotate(-10deg);
+        }
+
+        .nostril.right {
+            right: 35px;
+            transform: rotate(10deg);
+        }
+
+        /* Tạo kiểu cho lông mũi */
+        .hair {
+            position: absolute;
+            width: 2px; /* Độ dày của sợi lông */
+            height: var(--length); /* Chiều dài, được định nghĩa trong HTML */
+            background-color: #000;
+            /* Vị trí gốc của sợi lông */
+            bottom: 35px;
+            left: 50%;
+            /* Xoay sợi lông từ gốc */
+            transform-origin: bottom center;
+            transform: translateX(-50%) rotate(var(--angle)); /* Góc xoay, được định nghĩa trong HTML */
+            cursor: pointer;
+            transition: all 0.3s ease; /* Hiệu ứng chuyển động mượt mà */
+        }
+
+        .hair:hover {
+            background-color: red;
+            transform: translateX(-50%) rotate(var(--angle)) scale(1.2); /* Phóng to khi di chuột vào */
+        }
+
+        /* Class này sẽ được thêm vào bằng JS khi lông bị nhổ */
+        .hair.plucked {
+            opacity: 0;
+            transform: translateX(-50%) rotate(var(--angle)) scaleY(0); /* Hiệu ứng co lại và biến mất */
+            pointer-events: none; /* Không cho click lại sau khi đã nhổ */
         }
     </style>
 </head>
-
 <body>
-    <div id="controls" class="glass-ui">
-        <div id="start-form">
-            <input type="text" id="wordInput" placeholder="Enter a starting concept...">
-            <button id="startButton">Brainstorm</button>
-        </div>
-        <div id="gemini-key-form">
-            <input type="text" id="geminiKeyInput" placeholder="Gemini API Key (optional)">
-        </div>
-        <div id="lang-form">
-            <select id="langSelect">
-                <option value="en">English</option>
-                <option value="vi">Tiếng Việt</option>
-            </select>
-        </div>
-        <div id="action-buttons" class="hidden">
-            <button id="resetButton">Reset</button>
-        </div>
-        <div id="key-note" style="    display: block;
-    background: rgba(0, 0, 0, 0.22);
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-size: 15px;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(4px);">
-            <b>Note:</b> The default Gemini API key is limited and may run out of quota.<br>
-            For unlimited use, get your own free Gemini API key at <a href="https://aistudio.google.com/apikey"
-                target="_blank"
-                style="color:#ffe066;text-decoration:underline;word-break:break-all;">https://aistudio.google.com/apikey</a>
-            and paste it above.
-        </div>
 
+    <h1>Trải Nghiệm Nhổ Lông Mũi 3000</h1>
+    <p>Click vào từng sợi lông mũi để nhổ nó ra và lắng nghe!</p>
+
+    <div class="nose-container">
+        <div class="nose">
+            <div class="nostril left"></div>
+            <div class="nostril right"></div>
+
+            <!-- Các sợi lông mũi. Bạn có thể thêm/bớt tùy ý. -->
+            <!-- --angle là góc (độ), --length là chiều dài (pixel) -->
+            <div class="hair" style="--angle: 200deg; --length: 40px;"></div>
+            <div class="hair" style="--angle: 215deg; --length: 55px;"></div>
+            <div class="hair" style="--angle: 230deg; --length: 45px;"></div>
+            <div class="hair" style="--angle: 245deg; --length: 60px;"></div>
+
+            <div class="hair" style="--angle: 300deg; --length: 50px;"></div>
+            <div class="hair" style="--angle: 315deg; --length: 65px;"></div>
+            <div class="hair" style="--angle: 330deg; --length: 40px;"></div>
+            <div class="hair" style="--angle: 340deg; --length: 55px;"></div>
+        </div>
     </div>
 
-    <svg id="brainstorm-svg">
-        <g id="brainstorm-group"></g>
-    </svg>
-
-    <div id="tooltip" class="glass-ui"></div>
-
-    <!-- Libraries -->
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js"></script>
+    <!-- Âm thanh "ahh" được nhúng trực tiếp bằng Base64 để không cần file ngoài -->
+    <audio id="ahh-sound" src="data:audio/mpeg;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA="></audio>
+    <!-- Ghi chú: Dữ liệu âm thanh trên là một file WAV rất ngắn, gần như im lặng, để tránh lỗi trên một số trình duyệt. 
+         Âm thanh thực tế sẽ được tạo bằng Javascript bên dưới. -->
 
     <script>
-        window.onload = () => {
-            // --- CONFIGURATION ---
-            let GEMINI_API_KEY = 'AIzaSyCVxdKrWHnYbKeuPfCSIJFQD56Lh8A0udw';
-            const MAX_LEVEL = 5;
-            const CHILDREN_PER_NODE = 5;
-            const NODE_RADIUS = 70;
-            let CURRENT_LANG = 'en';
+        // JavaScript để xử lý logic
+        (function() {
+            // Lấy tất cả các phần tử có class 'hair'
+            const hairs = document.querySelectorAll('.hair');
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-            const mockData = {
-                "science": ["physics", "chemistry", "biology", "astronomy", "geology"],
-                "art": ["painting", "sculpture", "music", "literature", "dance"],
-                "technology": ["computing", "AI", "robotics", "biotech", "nanotech"],
-                "ai": ["machine learning", "neural networks", "NLP", "computer vision", "ethics"]
-            };
+            // Hàm tạo và phát âm thanh "Ahh"
+            function playAhhSound() {
+                // Tạo một Oscillator (bộ dao động để tạo sóng âm)
+                const oscillator = audioContext.createOscillator();
+                // Tạo bộ điều khiển âm lượng (GainNode)
+                const gainNode = audioContext.createGain();
 
-            // --- DOM & D3 ELEMENTS ---
-            const svg = d3.select("svg#brainstorm-svg");
-            const svgElement = document.getElementById('brainstorm-svg');
-            const group = svg.select("g#brainstorm-group");
-            const tooltip = d3.select("#tooltip");
+                // Kết nối oscillator -> gainNode -> loa
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
 
-            // --- UI CONTROLS ---
-            const wordInput = document.getElementById('wordInput');
-            const startButton = document.getElementById('startButton');
-            const resetButton = document.getElementById('resetButton');
-            const geminiKeyInput = document.getElementById('geminiKeyInput');
-            const langSelect = document.getElementById('langSelect');
-            const startForm = document.getElementById('start-form');
-            const actionButtons = document.getElementById('action-buttons');
+                // Thiết lập các thông số cho âm thanh
+                oscillator.type = 'sawtooth'; // Dạng sóng răng cưa cho âm thanh hơi "rè"
+                oscillator.frequency.setValueAtTime(220, audioContext.currentTime); // Tần số ban đầu (nốt A3)
+                
+                // Giảm dần tần số để tạo hiệu ứng "Ahhh" đi xuống
+                oscillator.frequency.exponentialRampToValueAtTime(150, audioContext.currentTime + 0.5);
 
-            // Add: API error notification element
-            let apiErrorDiv = document.getElementById('api-error');
-            if (!apiErrorDiv) {
-                apiErrorDiv = document.createElement('div');
-                apiErrorDiv.id = 'api-error';
-                apiErrorDiv.style.position = 'fixed';
-                apiErrorDiv.style.top = '0';
-                apiErrorDiv.style.left = '50%';
-                apiErrorDiv.style.transform = 'translateX(-50%)';
-                apiErrorDiv.style.background = 'rgba(255, 80, 80, 0.97)';
-                apiErrorDiv.style.color = '#fff';
-                apiErrorDiv.style.padding = '14px 32px';
-                apiErrorDiv.style.fontSize = '17px';
-                apiErrorDiv.style.fontWeight = '600';
-                apiErrorDiv.style.borderRadius = '0 0 16px 16px';
-                apiErrorDiv.style.boxShadow = '0 4px 24px 0 rgba(0,0,0,0.13)';
-                apiErrorDiv.style.zIndex = '9999';
-                apiErrorDiv.style.display = 'none';
-                apiErrorDiv.style.textAlign = 'center';
-                apiErrorDiv.style.maxWidth = '90vw';
-                document.body.appendChild(apiErrorDiv);
-            }
-            function showApiError(msg) {
-                apiErrorDiv.textContent = msg;
-                apiErrorDiv.style.display = 'block';
-                setTimeout(() => { apiErrorDiv.style.display = 'none'; }, 3500);
+                // Điều chỉnh âm lượng để có hiệu ứng fade-out (nhỏ dần)
+                gainNode.gain.setValueAtTime(0.5, audioContext.currentTime); // Âm lượng ban đầu
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.6); // Giảm dần về 0
+
+                // Bắt đầu phát âm thanh
+                oscillator.start(audioContext.currentTime);
+                // Dừng sau 0.6 giây
+                oscillator.stop(audioContext.currentTime + 0.6);
             }
 
-            // --- STATE ---
-            let nodes = [];
-            let links = [];
-            let definitionsCache = new Map();
-            let panzoomInstance;
-
-            // --- D3 FORCE SIMULATION ---
-            const simulation = d3.forceSimulation(nodes)
-                .force("link", d3.forceLink(links).id(d => d.id).distance(220).strength(0.5))
-                .force("charge", d3.forceManyBody().strength(-1800))
-                .force("collide", d3.forceCollide().radius(NODE_RADIUS + 25))
-                .force("center", d3.forceCenter(svgElement.clientWidth / 2, svgElement.clientHeight / 2))
-                .on("tick", ticked);
-
-            // --- INITIALIZATION ---
-            function init() {
-                panzoomInstance = panzoom(document.getElementById('brainstorm-group'));
-                setupEventListeners();
-            }
-
-            function setupEventListeners() {
-                startButton.addEventListener('click', startBrainstorm);
-                wordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') startBrainstorm(); });
-                resetButton.addEventListener('click', resetBrainstorm);
-                geminiKeyInput.addEventListener('change', () => {
-                    const val = geminiKeyInput.value.trim();
-                    if (val) {
-                        GEMINI_API_KEY = val;
-                    } else {
-                        GEMINI_API_KEY = 'AIzaSyCVxdKrWHnYbKeuPfCSIJFQD56Lh8A0udw';
+            // Lặp qua từng sợi lông và thêm sự kiện 'click'
+            hairs.forEach(hair => {
+                hair.addEventListener('click', () => {
+                    // Kiểm tra xem trình duyệt có đang bị chặn tự động phát âm thanh không
+                    // Nếu context bị treo, ta phải kích hoạt lại nó
+                    if (audioContext.state === 'suspended') {
+                        audioContext.resume();
                     }
+                    
+                    // Phát âm thanh "ahh"
+                    playAhhSound();
+
+                    // Thêm class 'plucked' để kích hoạt hiệu ứng CSS
+                    hair.classList.add('plucked');
                 });
-                langSelect.addEventListener('change', () => {
-                    CURRENT_LANG = langSelect.value;
-                    // Optionally, you can update UI text here if you want full i18n
-                });
-                document.addEventListener('mousemove', (e) => {
-                    tooltip.style('left', e.pageX + 15 + 'px').style('top', e.pageY + 15 + 'px');
-                });
-            }
-
-            // --- UI & STATE ---
-            function startBrainstorm() {
-                const rootWord = wordInput.value.trim();
-                if (!rootWord) return;
-                resetBrainstorm();
-                const rootNode = { id: rootWord, level: 0, fx: svgElement.clientWidth / 2, fy: svgElement.clientHeight / 2 };
-                nodes.push(rootNode);
-                updateSimulation();
-                startForm.classList.add('hidden');
-                actionButtons.classList.remove('hidden');
-            }
-
-            function resetBrainstorm() {
-                nodes = [];
-                links = [];
-                definitionsCache.clear();
-                updateSimulation();
-                panzoomInstance.moveTo(0, 0);
-                panzoomInstance.zoomAbs(0, 0, 1);
-                if (!document.getElementById('start-form').classList.contains('hidden')) {
-                    wordInput.value = '';
-                } else {
-                    startForm.classList.remove('hidden');
-                    actionButtons.classList.add('hidden');
-                }
-            }
-
-            // --- CORE LOGIC ---
-            async function expandNode(event, d) {
-                if (d.isExpanded || d.level >= MAX_LEVEL || d.isExpanding) return;
-                d.isExpanding = true;
-                // Show vieneff effect (highlight border only, no spin)
-                const nodeElement = d3.select(event.currentTarget);
-                const vien = nodeElement.select('circle.vieneff');
-                vien.style('display', 'block')
-                    .transition().duration(100)
-                    .style('opacity', 1)
-                    .style('stroke-width', 9);
-                // Highlight the node being expanded
-                const mainCircle = nodeElement.select('circle.main-circle');
-                mainCircle.style('fill', 'rgba(255, 255, 180, 0.7)'); // yellow highlight
-
-                try {
-                    // Fetch related words and their definitions in one go
-                    let relatedWordDefs = await getRelatedWordsAndDefinitions(d.id);
-                    // Remove duplicates: not in nodes and not in links from this node
-                    const existingWords = new Set(nodes.map(n => n.id.toLowerCase()));
-                    const alreadyLinked = new Set(links.filter(l => l.source === d.id || (l.source && l.source.id === d.id)).map(l => (typeof l.target === 'object' ? l.target.id : l.target).toLowerCase()));
-                    // Filter and keep only new words
-                    relatedWordDefs = relatedWordDefs.filter(obj => !existingWords.has(obj.word.toLowerCase()) && !alreadyLinked.has(obj.word.toLowerCase()));
-                    if (relatedWordDefs.length === 0) {
-                        mainCircle.style('fill', 'rgba(255, 150, 150, 0.7)'); // error red
-                        vien.transition().duration(200).style('opacity', 0).on('end', () => vien.style('display', 'none'));
-                        return;
-                    }
-                    d.isExpanded = true;
-                    const angleStep = (2 * Math.PI) / relatedWordDefs.length;
-                    const radius = 260 + d.level * 30;
-                    let childIndex = 0;
-                    relatedWordDefs.forEach(obj => {
-                        const word = obj.word;
-                        // Place new node in a circle around parent
-                        const angle = childIndex * angleStep;
-                        const x = (typeof d.x === 'number' ? d.x : 0) + radius * Math.cos(angle);
-                        const y = (typeof d.y === 'number' ? d.y : 0) + radius * Math.sin(angle);
-                        nodes.push({ id: word, level: d.level + 1, x, y });
-                        links.push({ source: d.id, target: word });
-                        // Cache definition if available
-                        if (obj.definition) definitionsCache.set(word, obj.definition);
-                        childIndex++;
-                    });
-                    updateSimulation();
-                    // Reset color to normal after expand
-                    setTimeout(() => {
-                        mainCircle.style('fill', null);
-                        vien.transition().duration(200).style('opacity', 0).on('end', () => vien.style('display', 'none'));
-                    }, 400);
-                } catch (error) {
-                    showApiError((CURRENT_LANG === 'vi') ? 'Lỗi API Gemini: ' + error.message : 'Gemini API error: ' + error.message);
-                    console.error("Error expanding node:", error);
-                    mainCircle.style('fill', 'rgba(255, 150, 150, 0.7)'); // error red
-                    vien.transition().duration(200).style('opacity', 0).on('end', () => vien.style('display', 'none'));
-                } finally {
-                    d.isExpanding = false;
-                }
-            }
-
-            // --- D3 RENDERING ---
-            function updateSimulation() {
-                simulation.nodes(nodes);
-                simulation.force("link").links(links);
-
-                const linkSelection = group.selectAll(".link").data(links, d => `${d.source.id}-${d.target.id}`);
-                linkSelection.enter().insert("line", ".node").attr("class", "link");
-                linkSelection.exit().remove();
-
-                const nodeSelection = group.selectAll(".node").data(nodes, d => d.id);
-                const nodeEnter = nodeSelection.enter().append("g")
-                    .attr("class", "node")
-                    .call(d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended))
-                    .on("click", expandNode)
-                    .on("mouseover", showTooltip)
-                    .on("mouseout", hideTooltip);
-
-                // Vien effect circle (hidden by default)
-                nodeEnter.append('circle')
-                    .attr('class', 'vieneff')
-                    .attr('r', NODE_RADIUS + 13)
-                    .style('display', 'none');
-                nodeEnter.append('circle').attr('class', 'main-circle').attr('r', NODE_RADIUS);
-                nodeEnter.append('text').text(d => d.id);
-
-                nodeSelection.exit().remove();
-                simulation.alpha(1).restart();
-            }
-
-            function ticked() {
-                group.selectAll(".link")
-                    .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
-                    .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
-                group.selectAll(".node").attr("transform", d => `translate(${d.x}, ${d.y})`);
-            }
-
-            // --- DRAG & DATA ---
-            function dragstarted(event, d) {
-                if (!event.active) simulation.alphaTarget(0.3).restart();
-                d.fx = d.x; d.fy = d.y;
-            }
-            function dragged(event, d) { d.fx = event.x; d.fy = event.y; }
-            function dragended(event, d) {
-                if (!event.active) simulation.alphaTarget(0);
-                d.fx = null; d.fy = null;
-            }
-
-            async function apiCall(prompt) {
-                if (!GEMINI_API_KEY || GEMINI_API_KEY === 'PASTE_YOUR_GEMINI_API_KEY_HERE') {
-                    showApiError((CURRENT_LANG === 'vi') ? 'Bạn chưa nhập Gemini API key.' : 'No Gemini API key provided.');
-                    throw new Error("API key not provided.");
-                }
-                const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-                let response;
-                try {
-                    response = await fetch(API_URL, {
-                        method: 'POST', headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                    });
-                } catch (err) {
-                    showApiError((CURRENT_LANG === 'vi') ? 'Không thể kết nối tới Gemini API.' : 'Cannot connect to Gemini API.');
-                    throw err;
-                }
-                if (!response.ok) {
-                    let msg = (CURRENT_LANG === 'vi') ? 'Lỗi Gemini API: ' : 'Gemini API error: ';
-                    if (response.status === 429) {
-                        msg += (CURRENT_LANG === 'vi') ? 'Bạn đã vượt quá giới hạn sử dụng hoặc key đã hết quota.' : 'You have exceeded the usage limit or your key quota is exhausted.';
-                    } else if (response.status === 403) {
-                        msg += (CURRENT_LANG === 'vi') ? 'Key không hợp lệ hoặc không đủ quyền.' : 'Invalid API key or insufficient permissions.';
-                    } else {
-                        msg += response.status + ' ' + response.statusText;
-                    }
-                    showApiError(msg);
-                    throw new Error(msg);
-                }
-                const data = await response.json();
-                return data.candidates[0].content.parts[0].text;
-            }
-
-
-            // Fetch related words AND their definitions in a single API call
-            async function getRelatedWordsAndDefinitions(word) {
-                try {
-                    let prompt;
-                    if (CURRENT_LANG === 'vi') {
-                        prompt = `Tạo chính xác ${CHILDREN_PER_NODE} khái niệm (một hoặc hai từ) liên quan đến từ \"${word}\". Với mỗi khái niệm, cung cấp định nghĩa ngắn gọn (1 câu). Trả về duy nhất một mảng JSON: [{\"word\": \"...\", \"definition\": \"...\"}, ...] KHÔNG giải thích gì thêm.`;
-                    } else {
-                        prompt = `Generate exactly ${CHILDREN_PER_NODE} single-word or two-word concepts related to \"${word}\". For each, provide a concise one-sentence definition. Return ONLY a JSON array: [{\"word\": \"...\", \"definition\": \"...\"}, ...] with NO explanation.`;
-                    }
-                    const text = await apiCall(prompt);
-                    let arr = [];
-                    // Try to extract JSON array from text
-                    let jsonMatch = text.match(/\[.*?\]/s);
-                    if (jsonMatch) {
-                        try {
-                            arr = JSON.parse(jsonMatch[0]);
-                        } catch (e) {
-                            arr = [];
-                        }
-                    } else {
-                        // Try parse whole text
-                        try {
-                            arr = JSON.parse(text);
-                        } catch (e) {
-                            arr = [];
-                        }
-                    }
-                    // Validate and clean array
-                    if (!Array.isArray(arr)) arr = [];
-                    arr = arr.filter(obj => obj && typeof obj.word === 'string' && typeof obj.definition === 'string');
-                    // Fallback for missing definitions (shouldn't happen)
-                    arr.forEach(obj => {
-                        if (!obj.definition || typeof obj.definition !== 'string') {
-                            obj.definition = (CURRENT_LANG === 'vi') ? 'Không có định nghĩa.' : 'No definition available.';
-                        }
-                    });
-                    // If not enough valid, fallback to old logic
-                    if (arr.length < CHILDREN_PER_NODE) {
-                        // Try to extract words from text as backup
-                        const words = text.split(',').map(w => w.trim().replace(/\.$/, '')).filter(Boolean).slice(0, CHILDREN_PER_NODE);
-                        words.forEach(w => {
-                            if (!arr.find(obj => obj.word === w)) {
-                                arr.push({ word: w, definition: (CURRENT_LANG === 'vi') ? 'Không có định nghĩa.' : 'No definition available.' });
-                            }
-                        });
-                        arr = arr.slice(0, CHILDREN_PER_NODE);
-                    }
-                    return arr;
-                } catch (error) {
-                    console.warn("API fall back to mock data.", error.message);
-                    const fallback = mockData[word.toLowerCase()] || [];
-                    return fallback.map(w => ({ word: w, definition: (CURRENT_LANG === 'vi') ? 'Không có định nghĩa.' : 'No definition available.' }));
-                }
-            }
-
-            async function getDefinition(word) {
-                if (definitionsCache.has(word)) return definitionsCache.get(word);
-                try {
-                    let prompt;
-                    if (CURRENT_LANG === 'vi') {
-                        prompt = `Giải thích ngắn gọn (1 câu) cho từ hoặc cụm từ: "${word}"`;
-                    } else {
-                        prompt = `Provide a concise, one-sentence definition for: "${word}"`;
-                    }
-                    const definition = await apiCall(prompt);
-                    definitionsCache.set(word, definition);
-                    return definition;
-                } catch (error) {
-                    const fallbackDef = (CURRENT_LANG === 'vi') ? "Không có định nghĩa." : "No definition available.";
-                    definitionsCache.set(word, fallbackDef);
-                    return fallbackDef;
-                }
-            }
-
-            // --- TOOLTIP & EXPORT ---
-            async function showTooltip(event, d) {
-                tooltip.classed('visible', true).html('Fetching definition...');
-                let definition = await getDefinition(d.id);
-                tooltip.html(definition);
-                // Add: allow click to re-define if no definition
-                const nodeElement = d3.select(event.currentTarget);
-                nodeElement.on('click.redefine', async function () {
-                    if (definition === 'No definition available.' || definition === 'Không có định nghĩa.') {
-                        tooltip.html((CURRENT_LANG === 'vi') ? 'Đang lấy lại định nghĩa...' : 'Refetching definition...');
-                        // Force refetch from API
-                        definitionsCache.delete(d.id);
-                        definition = await getDefinition(d.id);
-                        tooltip.html(definition);
-                    }
-                });
-            }
-
-            function hideTooltip(event, d) {
-                tooltip.classed('visible', false);
-                // Remove redefine click handler to avoid memory leak
-                if (event && event.currentTarget) {
-                    d3.select(event.currentTarget).on('click.redefine', null);
-                }
-            }
-
-
-
-            // --- RUN ---
-            init();
-        };
+            });
+        })();
     </script>
-</body>
 
+</body>
 </html>
