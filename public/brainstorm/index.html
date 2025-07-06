@@ -37,6 +37,7 @@
             border: 2.5px solid #232323;
             box-shadow: 0 4px 24px 0 #b4e39133, 0 2px 0 #fff inset;
             padding: 18px 24px;
+            backdrop-filter: blur(2px);
         }
 
         #controls {
@@ -301,7 +302,7 @@
 
         </div>
     </div>
-            <button id="user-guide-toggle" class="glass-ui" style="
+    <button id="user-guide-toggle" class="glass-ui" style="
                 border: 2.5px solid #232323;
                 background: linear-gradient(180deg, #97ff16 0%, #f7fcf7 100%);
                 color: #232323;
@@ -321,7 +322,8 @@
                 left: 24px;
                 bottom: 24px;
                 z-index: 10001;" title="Show usage guide">- How to use</button>
-    <div id="user-guide-panel" style="position:absolute;left:24px;bottom:80px;z-index:10000;border:2.5px solid #232323;border-radius:18px;box-shadow:0 4px 24px 0 #b4e39133;padding:18px 24px 18px 18px;min-width:260px;max-width:340px;font-family:'Instrument Serif',serif;font-size:17px;color:#232323;background:rgba(255,255,255,0.97);user-select:text;transition:opacity 0.2s;backdrop-filter:blur(4px);display:block;">
+    <div id="user-guide-panel"
+        style="position:absolute;left:24px;bottom:80px;z-index:10000;border:2.5px solid #232323;border-radius:18px;box-shadow:0 4px 24px 0 #b4e39133;padding:18px 24px 18px 18px;min-width:260px;max-width:340px;font-family:'Instrument Serif',serif;font-size:17px;color:#232323;background:rgba(255,255,255,0.97);user-select:text;transition:opacity 0.2s;backdrop-filter:blur(4px);display:block;">
         <div id="user-guide-content">
             <ul style="margin:8px 0 0 18px;padding:0;">
                 <li>Enter a concept and click <b>Brainstorm</b> to start.</li>
@@ -353,7 +355,16 @@
     <script>
         window.onload = () => {
             // --- CONFIGURATION ---
-            let GEMINI_API_KEY = 'AIzaSyADW8moV0HH-lrdLIp9c71P74gTwtM9EnE';
+            const GEMINI_API_KEYS = [
+                'AIzaSyBIBFCZUbuo9KNx6ZC8ja50t9blkBl180c',
+                'AIzaSyD0wrgMsbJJf22Uangp4ECrvFw88HPJ_3k',
+                'AIzaSyBPRZZJ7GFnKY6lzvG1aL0LOvQ70ljnLx4',
+                'AIzaSyDzWMVLXNQfIKhyYSAi8PZUA2-p19vV5UA',
+                'AIzaSyCi_S96VR_M7GT21w45dk2BMEqbrf-vIz8',
+                'AIzaSyADW8moV0HH-lrdLIp9c71P74gTwtM9EnE'
+            ];
+            let GEMINI_API_KEY = GEMINI_API_KEYS[0];
+
             const MAX_LEVEL = 5;
             const CHILDREN_PER_NODE = 5;
             const NODE_RADIUS = 70;
@@ -687,7 +698,7 @@
                     userGuideToggle.title = 'Show usage guide';
                 }
             }
-            userGuideToggle.addEventListener('click', function() {
+            userGuideToggle.addEventListener('click', function () {
                 userGuideVisible = !userGuideVisible;
                 updateUserGuideUI();
             });
@@ -742,42 +753,44 @@
             }
 
             async function apiCall(prompt) {
-                if (!GEMINI_API_KEY || GEMINI_API_KEY === 'PASTE_YOUR_GEMINI_API_KEY_HERE') {
-                    showApiError((CURRENT_LANG === 'vi') ? 'Bạn chưa nhập Gemini API key.' : 'No Gemini API key provided.');
-                    throw new Error("API key not provided.");
-                }
-                // Gemini 2.0 Flash endpoint and X-goog-api-key header
-                const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`;
-                let response;
-                try {
-                    response = await fetch(API_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-goog-api-key': GEMINI_API_KEY
-                        },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                    });
-                } catch (err) {
-                    showApiError((CURRENT_LANG === 'vi') ? 'Không thể kết nối tới Gemini API.' : 'Cannot connect to Gemini API.');
-                    throw err;
-                }
-                if (!response.ok) {
-                    let msg = (CURRENT_LANG === 'vi') ? 'Lỗi Gemini API: ' : 'Gemini API error: ';
-                    if (response.status === 429) {
-                        msg += (CURRENT_LANG === 'vi') ? 'Bạn đã vượt quá giới hạn sử dụng hoặc key đã hết quota.' : 'You have exceeded the usage limit or your key quota is exhausted.';
-                    } else if (response.status === 403) {
-                        msg += (CURRENT_LANG === 'vi') ? 'Key không hợp lệ hoặc không đủ quyền.' : 'Invalid API key or insufficient permissions.';
-                    } else {
-                        msg += response.status + ' ' + response.statusText;
+                let lastError = null;
+                for (let i = 0; i < GEMINI_API_KEYS.length; i++) {
+                    const key = GEMINI_API_KEYS[i];
+                    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`;
+                    let response;
+                    try {
+                        response = await fetch(API_URL, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-goog-api-key': key
+                            },
+                            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                        });
+                    } catch (err) {
+                        lastError = err;
+                        continue;
                     }
-                    showApiError(msg);
-                    throw new Error(msg);
+                    if (!response.ok) {
+                        lastError = response;
+                        // Nếu lỗi 403/429/401 thì thử key tiếp theo
+                        if ([403, 429, 401].includes(response.status)) continue;
+                        // Nếu lỗi khác, báo luôn
+                        let msg = (CURRENT_LANG === 'vi') ? 'Lỗi Gemini API: ' : 'Gemini API error: ';
+                        msg += response.status + ' ' + response.statusText;
+                        showApiError(msg);
+                        throw new Error(msg);
+                    }
+                    const data = await response.json();
+                    return data.candidates[0].content.parts[0].text;
                 }
-                const data = await response.json();
-                return data.candidates[0].content.parts[0].text;
+                // Nếu tất cả key đều lỗi
+                let msg = (CURRENT_LANG === 'vi')
+                    ? 'Tất cả API key đã hết hạn hoặc vượt quá giới hạn. Vui lòng quay lại sau.'
+                    : 'All API keys are expired or over quota. Please try again later.';
+                showApiError(msg);
+                throw new Error(msg);
             }
-
 
             // Fetch related words AND their definitions in a single API call
             async function getRelatedWordsAndDefinitions(word) {
