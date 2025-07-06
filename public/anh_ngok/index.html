@@ -191,7 +191,6 @@
             border: 2px solid #111;
         }
 
-        /* Xóa style .star và .arrow đỏ */
         .star,
         .arrow {
             display: none !important;
@@ -203,11 +202,11 @@
 
     <div class="container">
         <div class="meme-header">
-            <h1>MEME CONTEXT GENERATOR</h1>
-            <div class="subtitle">Nhập tình huống bất kỳ, AI sẽ chọn quote "chất" nhất cho bạn!</div>
+            <h1>VIETNAMESE USELESS ADVICES</h1>
+            <div class="subtitle">Enter situation</div>
         </div>
-        <textarea id="situation-input" placeholder="Nhập tình huống hoặc bối cảnh meme..."></textarea>
-        <button id="generate-btn" class="button">TẠO MEME</button>
+        <textarea id="situation-input" placeholder="Please enter any situation or problem..."></textarea>
+        <button id="generate-btn" class="button">Enter</button>
         <div id="loader"></div>
         <p id="error-message"></p>
         <div id="meme-result">
@@ -217,100 +216,20 @@
 
     <script>
         // --- CONFIGURATION ---
-        const API_KEY = 'AIzaSyC5QiUhYdb57h415WCZWKPFdy82TbJC7v0';
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
+        // UPDATED: List of API Keys to try
+        const API_KEYS = [
+            'AIzaSyBIBFCZUbuo9KNx6ZC8ja50t9blkBl180c',
+            'AIzaSyD0wrgMsbJJf22Uangp4ECrvFw88HPJ_3k',
+            'AIzaSyBPRZZJ7GFnKY6lzvG1aL0LOvQ70ljnLx4',
+            'AIzaSyDzWMVLXNQfIKhyYSAi8PZUA2-p19vV5UA',
+            'AIzaSyCi_S96VR_M7GT21w45dk2BMEqbrf-vIz8'
+        ];
 
         const QUOTES = [
-            "Chuẩn, hoàn toàn chuẩn! Nhưng bạn đã bị block vì bạn không tôn trọng mình!",
-            "Điều đó quan trọng với em lắm sao?",
-            "Anh sống như thế đấy em",
-            "Tiền ít thì mình mua cái ít tiền, đâu nhất thiết phải như anh...",
-            "Mọi việc không như em nghĩ đâu",
-            `Bạn ơi, bạn đang comment một câu mình không thích một chút nào nhé.`,
-            "Ồ, sao em lại nói thế?",
-            "Trình thấp nó thế em ạ",
-            "4 tiếng trước thì như thế, nhưng bây giờ khác rồi",
-            "Bạn có vấn đề gì về tư duy không?",
-            "Anh không bao giờ nói vậy em nhé",
-            "Thời gian sẽ trả lời thôi em",
-            "Chưa chính thức, nhưng anh đón đầu sự kiện.",
-            "Em mail hoặc gọi hotline UEFA nhé. Họ sẽ giúp em.",
-            "Sex, luôn là sex",
-            "Nói có chủ ngữ đi bạn nhỉ. Nên nhớ, đây là nhà mình. Bạn đang nói chuyện với ai thế, qua comment này?",
-            "Kịch bản ấy đẹp, nhưng khó xảy ra",
-            "Bạn viết tâm thư lên Liên hợp quốc nhé. Chắc là họ lắng nghe bạn đấy.",
-            "Chém gió tí cho vui mà em",
-            "Nick ảo ơi, chào bạn. Người thông minh và tử tế, ai lại dùng nick nặc danh thế...",
-            "Xin chào, có phải là anh đang tìm kiếm em không?",
-            "Cảm ơn em đã nhìn ra một ý mà anh đã cố tình khéo léo ẩn đi khi viết cái câu này",
-            "Em cười gì anh đấy, cho ý kiến đi em…",
-            "Em thiếu vốn sống, thiếu lòng trắc ẩn, thiếu cả tư duy để nhận xét về các câu chuyện thời cuộc",
-            "Và anh nhắc 1 lần nữa, đừng làm cái việc ngu ngốc là tiếp tục chụp màn hình những đoạn chat này và đưa ra ngoài",
-            "Có điên không?",
-            "Ai rảnh?",
-            "Là xao má?",
-            "Bê đê gì mà kì cục zậy?",
-            "Ngộ ha?",
-            "Trời ơi kinh khủng quá, ai đó làm ơn cứu tôi",
-            "Nước mắt em đã chảy, chỉ là nó không rơi xuống thôi",
-            "Công đức vô lượng",
-            "Không sợ hả",
-            "Arigathanks Gozaimuchi",
-            "Damn bro, u givin’ me headaches",
-            "Nô tài tuân mệnh",
-            "Vâng, anh là nhất",
-            "Vâng, chị là nhất",
-            "Tôi rất tiệt dọng",
-            "Ghê vậy sao",
-            "Thôi dẹp mẹ bây hết đi",
-            "Cái dòng giống gì mà ngộ vậy",
-            "Về kể lại không ai tin",
-            "Bà nói thiệt hả bà Thơ?",
-            "Để thêm vào di chúc",
-            "Ê hên lắm mới xui vậy á",
-            "Vô chùa là không biết lạy ai luôn",
-            "Thân chưa mà giỡn kiểu đó",
-            "Thua Phật mỗi cái áo cà sa",
-            "Thua thực dân Pháp mỗi cái quốc tịch",
-            "Thua Gia Cát Lượng mỗi cái quạt",
-            "Anh nhắc em",
-            "Chưa đủ wow",
-            "Nghe bài Trình chưa?",
-            "Xin lỗi vì đã xấu tính, hứa sẽ thế nữa",
-            "Nói dối là ỉa chảy cả đời đấy nhé"
-
+            "Chuẩn, hoàn toàn chuẩn! Nhưng bạn đã bị block vì bạn không tôn trọng mình!", "Điều đó quan trọng với em lắm sao?", "Anh sống như thế đấy em", "Tiền ít thì mình mua cái ít tiền, đâu nhất thiết phải như anh...", "Mọi việc không như em nghĩ đâu", "Bạn ơi, bạn đang comment một câu mình không thích một chút nào nhé.", "Ồ, sao em lại nói thế?", "Trình thấp nó thế em ạ", "4 tiếng trước thì như thế, nhưng bây giờ khác rồi", "Bạn có vấn đề gì về tư duy không?", "Anh không bao giờ nói vậy em nhé", "Thời gian sẽ trả lời thôi em", "Chưa chính thức, nhưng anh đón đầu sự kiện.", "Em mail hoặc gọi hotline UEFA nhé. Họ sẽ giúp em.", "Sex, luôn là sex", "Nói có chủ ngữ đi bạn nhỉ. Nên nhớ, đây là nhà mình. Bạn đang nói chuyện với ai thế, qua comment này?", "Kịch bản ấy đẹp, nhưng khó xảy ra", "Bạn viết tâm thư lên Liên hợp quốc nhé. Chắc là họ lắng nghe bạn đấy.", "Chém gió tí cho vui mà em", "Nick ảo ơi, chào bạn. Người thông minh và tử tế, ai lại dùng nick nặc danh thế...", "Xin chào, có phải là anh đang tìm kiếm em không?", "Cảm ơn em đã nhìn ra một ý mà anh đã cố tình khéo léo ẩn đi khi viết cái câu này", "Em cười gì anh đấy, cho ý kiến đi em…", "Em thiếu vốn sống, thiếu lòng trắc ẩn, thiếu cả tư duy để nhận xét về các câu chuyện thời cuộc", "Và anh nhắc 1 lần nữa, đừng làm cái việc ngu ngốc là tiếp tục chụp màn hình những đoạn chat này và đưa ra ngoài", "Có điên không?", "Ai rảnh?", "Là xao má?", "Bê đê gì mà kì cục zậy?", "Ngộ ha?", "Trời ơi kinh khủng quá, ai đó làm ơn cứu tôi", "Nước mắt em đã chảy, chỉ là nó không rơi xuống thôi", "Công đức vô lượng", "Không sợ hả", "Arigathanks Gozaimuchi", "Damn bro, u givin’ me headaches", "Nô tài tuân mệnh", "Vâng, anh là nhất", "Vâng, chị là nhất", "Tôi rất tiệt dọng", "Ghê vậy sao", "Thôi dẹp mẹ bây hết đi", "Cái dòng giống gì mà ngộ vậy", "Về kể lại không ai tin", "Bà nói thiệt hả bà Thơ?", "Để thêm vào di chúc", "Ê hên lắm mới xui vậy á", "Vô chùa là không biết lạy ai luôn", "Thân chưa mà giỡn kiểu đó", "Thua Phật mỗi cái áo cà sa", "Thua thực dân Pháp mỗi cái quốc tịch", "Thua Gia Cát Lượng mỗi cái quạt", "Anh nhắc em", "Chưa đủ wow", "Nghe bài Trình chưa?", "Xin lỗi vì đã xấu tính, hứa sẽ thế nữa", "Nói dối là ỉa chảy cả đời đấy nhé"
         ];
 
-        // Character images: random from 1 to 4
-        const CHARACTERS = [
-            'https://tramthaovy.id.vn/anh_ngok/1.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/2.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/3.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/4.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/5.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/6.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/7.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/8.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/9.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/10.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/11.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/12.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/13.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/14.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/15.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/16.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/17.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/18.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/19.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/20.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/21.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/22.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/23.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/24.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/25.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/26.jpg',
-            'https://tramthaovy.id.vn/anh_ngok/27.jpg',
-        ];
+        const CHARACTERS = ['https://tramthaovy.id.vn/anh_ngok/1.jpg', 'https://tramthaovy.id.vn/anh_ngok/2.jpg', 'https://tramthaovy.id.vn/anh_ngok/3.jpg', 'https://tramthaovy.id.vn/anh_ngok/4.jpg', 'https://tramthaovy.id.vn/anh_ngok/5.jpg', 'https://tramthaovy.id.vn/anh_ngok/6.jpg', 'https://tramthaovy.id.vn/anh_ngok/7.jpg', 'https://tramthaovy.id.vn/anh_ngok/8.jpg', 'https://tramthaovy.id.vn/anh_ngok/9.jpg', 'https://tramthaovy.id.vn/anh_ngok/10.jpg', 'https://tramthaovy.id.vn/anh_ngok/11.jpg', 'https://tramthaovy.id.vn/anh_ngok/12.jpg', 'https://tramthaovy.id.vn/anh_ngok/13.jpg', 'https://tramthaovy.id.vn/anh_ngok/14.jpg', 'https://tramthaovy.id.vn/anh_ngok/15.jpg', 'https://tramthaovy.id.vn/anh_ngok/16.jpg', 'https://tramthaovy.id.vn/anh_ngok/17.jpg', 'https://tramthaovy.id.vn/anh_ngok/18.jpg', 'https://tramthaovy.id.vn/anh_ngok/19.jpg', 'https://tramthaovy.id.vn/anh_ngok/20.jpg', 'https://tramthaovy.id.vn/anh_ngok/21.jpg', 'https://tramthaovy.id.vn/anh_ngok/22.jpg', 'https://tramthaovy.id.vn/anh_ngok/23.jpg', 'https://tramthaovy.id.vn/anh_ngok/24.jpg', 'https://tramthaovy.id.vn/anh_ngok/25.jpg', 'https://tramthaovy.id.vn/anh_ngok/26.jpg', 'https://tramthaovy.id.vn/anh_ngok/27.jpg'];
 
         // --- DOM Elements ---
         const situationInput = document.getElementById('situation-input');
@@ -335,17 +254,23 @@
             setLoading(true);
 
             try {
-                const quote = await getQuoteFromGemini(situation);
+                // Start the key rotation process from index 0
+                const quote = await getQuoteFromGemini(situation, 0);
                 const characterUrl = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
                 await drawCanvas(characterUrl, quote);
-                setLoading(false);
             } catch (error) {
                 console.error("Error during meme generation:", error);
-                showError("Có lỗi xảy ra khi tạo meme. Có thể do API Key hoặc kết nối mạng. Sẽ dùng một quote ngẫu nhiên.");
-                // Fallback to random quote on error
-                const randomQuote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
-                const characterUrl = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
-                await drawCanvas(characterUrl, randomQuote);
+                // Check for the specific "all keys failed" error
+                if (error.message === "ALL_KEYS_FAILED") {
+                    showError("Tất cả API key đã hết hạn hoặc không hợp lệ. Vui lòng thử lại sau.");
+                } else {
+                    // Fallback for other unexpected errors
+                    showError("Lỗi không xác định. Sẽ dùng một quote ngẫu nhiên.");
+                    const randomQuote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+                    const characterUrl = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
+                    await drawCanvas(characterUrl, randomQuote);
+                }
+            } finally {
                 setLoading(false);
             }
         }
@@ -376,52 +301,61 @@
             loader.style.display = 'none';
         }
 
-        // --- AI Quote Selection ---
+        // --- AI Quote Selection (with Key Rotation) ---
         const RECENT_QUOTES_LIMIT = 3;
         let recentQuoteIndexes = [];
-        async function getQuoteFromGemini(situation) {
+
+        async function getQuoteFromGemini(situation, keyIndex) {
+            // Base case: If we've run out of keys, throw a special error
+            if (keyIndex >= API_KEYS.length) {
+                throw new Error("ALL_KEYS_FAILED");
+            }
+
+            const currentKey = API_KEYS[keyIndex];
+            const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${currentKey}`;
+
             const quoteListForPrompt = QUOTES.map((q, i) => `${i}. "${q}"`).join('\n');
-            let avoidText = '';
-            if (recentQuoteIndexes.length > 0) {
-                avoidText = `\nLưu ý: Để tạo sự đa dạng, KHÔNG được chọn lại các quote đã chọn gần đây (index: ${recentQuoteIndexes.join(', ')}). Chỉ chọn lại nếu không còn quote nào phù hợp hơn.`;
-            }
-            const prompt = `
-                Analyze the user's situation and choose the most suitable and humorous quote from the following list.
-                The user's situation is: "${situation}"
-                List of quotes:
-                ${quoteListForPrompt}
-                Your response MUST BE ONLY the index number of the chosen quote. Do not add any explanation or other text.${avoidText}
-            `;
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [{ text: prompt }]
-                    }]
-                })
-            });
-            if (!response.ok) {
-                let errorData = null;
-                try { errorData = await response.json(); } catch (e) { }
-                console.error("API Error:", errorData);
-                throw new Error(`API request failed with status ${response.status}`);
-            }
-            const data = await response.json();
-            const textResponse = data.candidates[0].content.parts[0].text.trim();
-            const quoteIndex = parseInt(textResponse.match(/\d+/)[0], 10);
-            if (!isNaN(quoteIndex) && quoteIndex >= 0 && quoteIndex < QUOTES.length) {
-                // Lưu lại các quote đã chọn gần đây
-                recentQuoteIndexes.push(quoteIndex);
-                if (recentQuoteIndexes.length > RECENT_QUOTES_LIMIT) {
-                    recentQuoteIndexes.shift();
+            let avoidText = recentQuoteIndexes.length > 0 ? `\nLưu ý: Để tạo sự đa dạng, KHÔNG được chọn lại các quote đã chọn gần đây (index: ${recentQuoteIndexes.join(', ')}). Chỉ chọn lại nếu không còn quote nào phù hợp hơn.` : '';
+
+            const prompt = `Analyze the user's situation and choose the most suitable and humorous quote from the following list.
+The user's situation is: "${situation}"
+List of quotes:
+${quoteListForPrompt}
+Your response MUST BE ONLY the index number of the chosen quote. Do not add any explanation or other text.${avoidText}`;
+
+            try {
+                console.log(`Attempting to use API Key #${keyIndex + 1}...`);
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+
+                if (!response.ok) {
+                    // This key failed, throw an error to trigger the catch block and try the next key
+                    throw new Error(`API request failed with status ${response.status}`);
                 }
-                return QUOTES[quoteIndex];
-            } else {
-                console.warn("Invalid index from API, falling back to random.");
-                return QUOTES[Math.floor(Math.random() * QUOTES.length)];
+
+                // --- SUCCESS ---
+                const data = await response.json();
+                const textResponse = data.candidates[0].content.parts[0].text.trim();
+                const quoteIndex = parseInt(textResponse.match(/\d+/)[0], 10);
+
+                if (!isNaN(quoteIndex) && quoteIndex >= 0 && quoteIndex < QUOTES.length) {
+                    recentQuoteIndexes.push(quoteIndex);
+                    if (recentQuoteIndexes.length > RECENT_QUOTES_LIMIT) {
+                        recentQuoteIndexes.shift();
+                    }
+                    return QUOTES[quoteIndex];
+                } else {
+                    console.warn("Invalid index from API, falling back to random.");
+                    return QUOTES[Math.floor(Math.random() * QUOTES.length)];
+                }
+
+            } catch (error) {
+                console.warn(`Key #${keyIndex + 1} failed. Trying next key.`);
+                // --- RECURSIVE CALL: Try the next key in the list ---
+                return await getQuoteFromGemini(situation, keyIndex + 1);
             }
         }
 
@@ -429,29 +363,27 @@
         function drawCanvas(imageUrl, quoteText) {
             return new Promise((resolve, reject) => {
                 const img = new Image();
+                img.crossOrigin = "Anonymous"; // Important for drawing images from other domains
                 img.src = imageUrl;
 
                 img.onload = () => {
-                    // Set canvas to 4:3 aspect ratio
                     const canvasWidth = 800;
                     const canvasHeight = 600;
                     canvas.width = canvasWidth;
                     canvas.height = canvasHeight;
 
-                    // Clear canvas
                     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-                    // Draw image with "cover" effect
                     const canvasRatio = canvasWidth / canvasHeight;
                     const imgRatio = img.width / img.height;
                     let drawWidth, drawHeight, offsetX, offsetY;
 
-                    if (imgRatio > canvasRatio) { // Image is wider
+                    if (imgRatio > canvasRatio) {
                         drawHeight = canvasHeight;
                         drawWidth = drawHeight * imgRatio;
                         offsetX = (drawWidth - canvasWidth) / 2;
                         offsetY = 0;
-                    } else { // Image is taller or same ratio
+                    } else {
                         drawWidth = canvasWidth;
                         drawHeight = drawWidth / imgRatio;
                         offsetY = (drawHeight - canvasHeight) / 2;
@@ -459,10 +391,8 @@
                     }
                     ctx.drawImage(img, -offsetX, -offsetY, drawWidth, drawHeight);
 
-                    // Draw text
                     drawMemeText(quoteText, canvasWidth, canvasHeight);
 
-                    // Show canvas (not export to image)
                     canvas.style.display = 'block';
                     memeResultDiv.style.display = 'block';
                     resolve();
@@ -470,13 +400,12 @@
 
                 img.onerror = () => {
                     showError('Không thể tải ảnh meme!');
-                    resolve();
+                    resolve(); // Resolve anyway to avoid unhandled promise rejection
                 };
             });
         }
 
         function drawMemeText(text, canvasWidth, canvasHeight) {
-            // Responsive font size
             let fontSize = Math.max(28, Math.round(canvasWidth / 18));
             const padding = Math.max(12, Math.round(canvasWidth * 0.025));
             const bottomMargin = Math.max(16, Math.round(canvasHeight * 0.03));
@@ -489,10 +418,8 @@
             ctx.strokeStyle = 'black';
             ctx.lineWidth = Math.max(4, Math.round(fontSize / 6));
 
-            // Wrap text
             const lines = wrapText(ctx, text, canvasWidth - padding * 2);
 
-            // Draw lines from bottom up
             let y = canvasHeight - bottomMargin;
             for (let i = lines.length - 1; i >= 0; i--) {
                 const line = lines[i];
